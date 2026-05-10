@@ -214,7 +214,7 @@ export const projects = [
         id: 1,
         title: "Raangalay",
         description: "A premium e-commerce platform specializing in traditional and lifestyle products. Developed the high-performance frontend using Next.js, focusing on a seamless user experience, responsive product galleries, and optimized page speed.",
-        image: "/images/raangalay.PNG",
+        image: "/images/raangalay.png",
         tags: ["Next.js", "Shadcn UI", "Tailwind CSS", "TypeScript", "Lucide Icons", "Framer Motion"],
         github: "https://github.com/monir-hossaien/raangalay-frontend", // Verify your repo name
         live: "https://raangalay.com"
@@ -223,19 +223,19 @@ export const projects = [
         id: 2,
         title: "Doctor Finder",
         description: "A MERN-based platform to search doctors by location, specialty, and hospital. Includes secure JWT authentication, admin dashboard, and a full appointment booking system with modern UI/UX.",
-        image: "/images/doctor.PNG",
+        image: "/images/doctor_finder.png",
         tags: ["React", "Express.js", "MongoDB", "JWT", "Tailwind", "Zustand"],
         github: "https://github.com/monir-hossaien/doctor-finder",
         live: "https://care-hop-service.vercel.app"
     },
     {
         id: 3,
-        title: "AI Code Explanation Tool",
-        description: "An AI-powered code explainer built with React and Tailwind. Supports Markdown rendering, syntax highlighting via Prism, one-click copy, and a clean UI for developers to understand.",
-        image: "/images/code.png",
-        tags: ["React", "Tailwind", "AI Model", "React Markdown", "Prism", "Lucide", "Express Js"],
-        github: "https://github.com/monir-hossaien/code-explain-AI",
-        live: "https://code-explanation.vercel.app"
+        title: "Quran",
+        description: "A modern Quran learning app with a beautiful UI and comprehensive features, including audio recitation playback and search by translation, designed to help users study, read, and memorize the Holy Quran effectively.",
+        image: "/images/quran.png",
+        tags: ["Next.js", "Tailwind", "Express Js"],
+        github: "https://github.com/md-mhossain/quran-web-app",
+        live: "https://quran-web-app-sigma.vercel.app"
     },
 ];
 
