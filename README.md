@@ -1,12 +1,67 @@
-# React + Vite
+# Portfolio Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains two separate applications:
 
-Currently, two official plugins are available:
+- `web/` — Next.js frontend
+- `api/` — Express + Prisma backend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup
 
-## Expanding the ESLint configuration
+Install dependencies for each app separately from the app folders:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cd api
+npm install
+cd ..\web
+npm install
+```
+
+Create `.env` files if needed by copying the examples:
+
+```bash
+copy api\.env.example api\.env
+copy web\.env.example web\.env
+```
+
+## Development
+
+Run each app in its own terminal:
+
+```bash
+cd api
+npm run dev
+```
+
+```bash
+cd web
+npm run dev
+```
+
+## Build
+
+```bash
+cd api
+npm run build
+```
+
+```bash
+cd web
+npm run build
+```
+
+## Start
+
+```bash
+cd api
+npm run start
+```
+
+```bash
+cd web
+npm run start
+```
+
+## Notes
+
+- This repository is now configured as a plain multi-app project without a root `package.json`.
+- Use the `api/` and `web/` folders directly for install, development, build, and start commands.

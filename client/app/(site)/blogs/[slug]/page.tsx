@@ -1,0 +1,108 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { ArrowLeft, CalendarDays, Clock, User } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { serverGetBlog } from '@/lib/api/server';
+import { formatDate } from '@/lib/utils';
+
+export const revalidate = 3600;
+
+interface BlogDetailPageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await serverGetBlog(slug);
+  if (!blog) return { title: 'Blog not found' };
+
+  return {
+    title: blog.title,
+    description: blog.excerpt,
+    openGraph: {
+      title: blog.title,
+      description: blog.excerpt,
+      images: [blog.coverImage],
+      type: 'article',
+      publishedTime: blog.publishedAt ?? undefined,
+    },
+  };
+}
+
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = await params;
+  const blog = await serverGetBlog(slug);
+
+  if (!blog) notFound();
+
+  return (
+    <article className="pb-24">
+      <div className="relative overflow-hidden">
+        <div className="container-page pt-10">
+          <Button asChild variant="ghost" size="sm" className="-ml-3 mb-8">
+            <Link href="/blogs">
+              <ArrowLeft className="h-4 w-4" />
+              Back to blogs
+            </Link>
+          </Button>
+
+          <div className="mx-auto max-w-3xl">
+            <Badge variant="secondary">{blog.category}</Badge>
+            <h1 className="mt-6 font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              {blog.title}
+            </h1>
+
+            <div className="mt-6 flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
+              {blog.author && (
+                <span className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  {blog.author.name}
+                </span>
+              )}
+              <span className="flex items-center gap-2">
+                <CalendarDays className="h-4 w-4" />
+                {formatDate(blog.publishedAt)}
+              </span>
+              <span className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
+                {blog.readTime} min read
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container-page mt-10">
+        <img
+          src={blog.coverImage}
+          alt={blog.title}
+          className="mx-auto aspect-[16/7] w-full max-w-4xl rounded-3xl object-cover"
+        />
+
+        <div className="prose prose-lg prose-neutral mx-auto mt-12 max-w-3xl dark:prose-invert prose-headings:font-display prose-p:leading-relaxed">
+          {blog.content?.split('\n').map((paragraph, index) => {
+            const trimmed = paragraph.trim();
+            if (!trimmed) return null;
+            if (trimmed.startsWith('## ')) {
+              return <h2 key={index}>{trimmed.replace(/^##\s+/, '')}</h2>;
+            }
+            if (trimmed.startsWith('# ')) {
+              return <h1 key={index}>{trimmed.replace(/^#\s+/, '')}</h1>;
+            }
+            return <p key={index}>{trimmed}</p>;
+          })}
+        </div>
+
+        <div className="mx-auto mt-12 flex max-w-3xl flex-wrap gap-2 border-t border-border pt-8">
+          {blog.tags.map((tag) => (
+            <Badge key={tag} variant="outline">
+              #{tag}
+            </Badge>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
