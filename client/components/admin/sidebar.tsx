@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart3,
   FileText,
@@ -12,10 +12,10 @@ import {
   Settings,
   Sparkles,
   Users,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,20 +23,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useAuthStore } from '@/lib/auth/store';
-import { getInitials } from '@/lib/utils';
-import { ThemeToggle } from '@/components/site/theme-toggle';
-import { toast } from 'sonner';
+} from "@/components/ui/dropdown-menu";
+import { useAuthStore } from "@/lib/auth/store";
+import { getInitials } from "@/lib/utils";
+import { ThemeToggle } from "@/components/site/theme-toggle";
+import { toast } from "sonner";
 
 const navItems = [
-  { label: 'Overview', path: '/admin', icon: LayoutDashboard },
-  { label: 'Users', path: '/admin/users', icon: Users },
-  { label: 'Projects', path: '/admin/projects', icon: FolderKanban },
-  { label: 'Blogs', path: '/admin/blogs', icon: FileText },
-  { label: 'Skills', path: '/admin/skills', icon: Sparkles },
-  { label: 'Messages', path: '/admin/messages', icon: Inbox },
-  { label: 'Settings', path: '/admin/settings', icon: Settings },
+  { label: "Overview", path: "/dashboard", icon: LayoutDashboard },
+  { label: "Users", path: "/dashboard/users", icon: Users },
+  { label: "Projects", path: "/dashboard/projects", icon: FolderKanban },
+  { label: "Blogs", path: "/dashboard/blogs", icon: FileText },
+  { label: "Skills", path: "/dashboard/skills", icon: Sparkles },
+  { label: "Messages", path: "/dashboard/messages", icon: Inbox },
+  { label: "Settings", path: "/dashboard/settings", icon: Settings },
 ];
 
 export function AdminSidebar() {
@@ -47,8 +47,8 @@ export function AdminSidebar() {
 
   const handleLogout = async () => {
     await logout();
-    toast.success('Logged out.');
-    router.push('/login');
+    toast.success("Logged out.");
+    router.push("/login");
   };
 
   return (
@@ -64,16 +64,18 @@ export function AdminSidebar() {
         <nav className="flex-1 space-y-1 overflow-y-auto p-3">
           {navItems.map((item) => {
             const active =
-              item.path === '/admin' ? pathname === '/admin' : pathname.startsWith(item.path);
+              item.path === "/dashboard"
+                ? pathname === "/admin"
+                : pathname.startsWith(item.path);
             return (
               <Link
                 key={item.path}
                 href={item.path}
                 className={cn(
-                  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
                   active
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                 )}
               >
                 <item.icon className="h-4 w-4" />
@@ -89,21 +91,32 @@ export function AdminSidebar() {
               <DropdownMenuTrigger asChild>
                 <button className="flex flex-1 items-center gap-3 text-left">
                   <Avatar className="h-9 w-9">
-                    {user?.avatarUrl && <AvatarImage src={user.avatarUrl} alt={user.name} />}
-                    <AvatarFallback>{getInitials(user?.name ?? 'U')}</AvatarFallback>
+                    {user?.avatarUrl && (
+                      <AvatarImage src={user.avatarUrl} alt={user.name} />
+                    )}
+                    <AvatarFallback>
+                      {getInitials(user?.name ?? "U")}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium">{user?.name}</p>
-                    <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {user?.email}
+                    </p>
                   </div>
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push('/')}>View site</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/")}>
+                  View site
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-destructive"
+                >
                   <LogOut className="h-4 w-4" />
                   Log out
                 </DropdownMenuItem>
@@ -115,7 +128,10 @@ export function AdminSidebar() {
 
       {/* Mobile top bar */}
       <div className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/90 px-4 py-3 backdrop-blur lg:hidden">
-        <Link href="/admin" className="font-display text-xl font-extrabold uppercase tracking-tight">
+        <Link
+          href="/admin"
+          className="font-display text-xl font-extrabold uppercase tracking-tight"
+        >
           dev<span className="text-accent">.monir</span>
         </Link>
         <div className="flex items-center gap-2">
@@ -128,13 +144,19 @@ export function AdminSidebar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               {navItems.map((item) => (
-                <DropdownMenuItem key={item.path} onClick={() => router.push(item.path)}>
+                <DropdownMenuItem
+                  key={item.path}
+                  onClick={() => router.push(item.path)}
+                >
                   <item.icon className="h-4 w-4" />
                   {item.label}
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="text-destructive"
+              >
                 <LogOut className="h-4 w-4" />
                 Log out
               </DropdownMenuItem>

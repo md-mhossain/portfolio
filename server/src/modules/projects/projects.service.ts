@@ -1,16 +1,16 @@
-import type { Prisma } from "../../generated/prisma/client.js";
-import { ConflictError, NotFoundError } from "../../shared/errors.js";
+import type { Prisma } from "../../generated/prisma/client";
+import { ConflictError, NotFoundError } from "../../shared/errors";
 import {
   buildPaginationMeta,
   parseOrderBy,
   parsePagination,
-} from "../../shared/utils/pagination.js";
-import { randomSlugSuffix, slugify } from "../../shared/utils/slugify.js";
-import { prisma } from "../../lib/prisma.js";
+} from "../../shared/utils/pagination";
+import { randomSlugSuffix, slugify } from "../../shared/utils/slugify";
+import { prisma } from "../../lib/prisma";
 import type {
   CreateProjectInput,
   UpdateProjectInput,
-} from "./projects.schemas.js";
+} from "./projects.schemas";
 
 const SORTABLE_FIELDS = ["createdAt", "updatedAt", "order", "title"];
 
@@ -69,7 +69,7 @@ export const projectsService = {
       SORTABLE_FIELDS,
     );
 
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.project.findMany({
         where,
         skip,

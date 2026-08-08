@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export function RecentMessages({ messages }: Props) {
+  
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between">
@@ -29,7 +31,7 @@ export function RecentMessages({ messages }: Props) {
         </div>
 
         <Button asChild variant="ghost" size="sm">
-          <Link href="/admin/messages">
+          <Link href="/dashboard/messages">
             View all
             <ArrowUpRight className="h-4 w-4" />
           </Link>
@@ -37,7 +39,7 @@ export function RecentMessages({ messages }: Props) {
       </CardHeader>
 
       <CardContent>
-        {messages.map((message) => (
+        {messages?.map((message) => (
           <div key={message.id} className="mb-3 rounded-xl border p-3">
             <p className="font-medium">{message.name}</p>
 

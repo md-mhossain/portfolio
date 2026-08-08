@@ -1,21 +1,22 @@
 import bcrypt from "bcryptjs";
-import { Prisma, User } from "../../generated/prisma/client.js";
-import { prisma } from "../../lib/prisma.js";
+import { Prisma, User } from "../../generated/prisma/client";
+import { prisma } from "../../lib/prisma";
 
 import {
   ConflictError,
   ForbiddenError,
   UnauthorizedError,
-} from "../../shared/errors.js";
-import { logger } from "../../shared/logger.js";
-import { env } from "../../config/env.js";
+} from "../../shared/errors";
+import { logger } from "../../shared/logger";
+import { env } from "../../config/env";
 import {
   createTokenId,
   generatePasswordResetToken,
   hashToken,
   signAccessToken,
   signRefreshToken,
-} from "../../shared/utils/tokens.js";
+  verifyRefreshToken,
+} from "../../shared/utils/tokens";
 import type {
   ChangePasswordInput,
   ForgotPasswordInput,
@@ -98,6 +99,7 @@ export const authService = {
 
     await this.updateLastLogin(user.id);
     const tokens = await this.issueTokenPair(user.id);
+
     return { user: this.toSafeUser(user), ...tokens };
   },
 
@@ -122,6 +124,7 @@ export const authService = {
   },
 
   async refresh(refreshToken: string) {
+    verifyRefreshToken(refreshToken);
     const tokenHash = hashToken(refreshToken);
     const stored = await this.findActiveRefreshToken(tokenHash);
     if (!stored) {

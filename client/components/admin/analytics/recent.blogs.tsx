@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import {
@@ -30,7 +32,7 @@ export function RecentBlogs({ blogs }: Props) {
         </div>
 
         <Button asChild variant="ghost" size="sm">
-          <Link href="/admin/blogs">
+          <Link href="/dashboard/blogs">
             Manage
             <ArrowUpRight className="h-4 w-4" />
           </Link>
@@ -38,7 +40,7 @@ export function RecentBlogs({ blogs }: Props) {
       </CardHeader>
 
       <CardContent>
-        {blogs.map((blog) => (
+        {blogs?.map((blog) => (
           <div key={blog.id} className="flex items-center justify-between py-3">
             <div className="flex items-center gap-3">
               <Sparkles className="h-4 w-4" />

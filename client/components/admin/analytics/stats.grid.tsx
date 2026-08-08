@@ -11,28 +11,28 @@ export function StatsGrid({ summary }: Props) {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatCard
         label="Total users"
-        value={summary.counts.users}
+        value={summary?.counts?.users}
         icon={Users}
-        hint={`+${summary.counts.newUsersToday} today`}
+        hint={`+${summary?.counts?.newUsersToday} today`}
       />
 
       <StatCard
         label="Projects"
-        value={summary.counts.projects}
+        value={summary?.counts?.projects}
         icon={FolderKanban}
         accent="accent"
       />
 
       <StatCard
         label="Blog posts"
-        value={summary.counts.blogs}
+        value={summary?.counts?.blogs}
         icon={FileText}
         accent="success"
       />
 
       <StatCard
         label="Unread messages"
-        value={summary.counts.unreadMessages}
+        value={summary?.counts?.unreadMessages}
         icon={Inbox}
         accent="destructive"
       />

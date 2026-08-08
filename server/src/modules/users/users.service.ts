@@ -71,7 +71,7 @@ export const usersService = {
       SORTABLE_FIELDS,
     );
 
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.user.findMany({
         where,
         skip,

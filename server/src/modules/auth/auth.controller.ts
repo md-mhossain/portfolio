@@ -5,7 +5,18 @@ import { sendPasswordResetEmail } from "../../shared/mailer.js";
 import { env } from "../../config/env.js";
 import { BadRequestError, UnauthorizedError } from "../../shared/errors.js";
 
+const ACCESS_COOKIE_MAX_AGE = 15 * 60 * 1000;
 const REFRESH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
+
+function setAccessCookie(res: Response, accessToken: string) {
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: ACCESS_COOKIE_MAX_AGE,
+    path: "/",
+  });
+}
 
 function setRefreshCookie(res: Response, refreshToken: string) {
   res.cookie("refreshToken", refreshToken, {
@@ -17,14 +28,21 @@ function setRefreshCookie(res: Response, refreshToken: string) {
   });
 }
 
-function clearRefreshCookie(res: Response) {
-  res.clearCookie("refreshToken", { path: "/api/v1/auth" });
+function clearAuthCookies(res: Response) {
+  res.clearCookie("accessToken", {
+    path: "/",
+  });
+
+  res.clearCookie("refreshToken", {
+    path: "/api/v1/auth",
+  });
 }
 
 export const authController = {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await authService.register(req.body);
+      setAccessCookie(res, result.accessToken);
       setRefreshCookie(res, result.refreshToken);
       return sendSuccess(res, result, {
         statusCode: 201,
@@ -38,6 +56,7 @@ export const authController = {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await authService.login(req.body);
+      setAccessCookie(res, result.accessToken);
       setRefreshCookie(res, result.refreshToken);
       return sendSuccess(res, result, { message: "Logged in successfully." });
     } catch (error) {
@@ -47,11 +66,12 @@ export const authController = {
 
   async refresh(req: Request, res: Response, next: NextFunction) {
     try {
-      const refreshToken = req.body?.refreshToken ?? req.cookies?.refreshToken;
+      const refreshToken = req.cookies?.refreshToken;
       if (!refreshToken) {
         throw new BadRequestError("Missing refresh token.");
       }
       const result = await authService.refresh(refreshToken);
+      setAccessCookie(res, result.accessToken);
       setRefreshCookie(res, result.refreshToken);
       return sendSuccess(res, result, {
         message: "Token refreshed successfully.",
@@ -63,9 +83,9 @@ export const authController = {
 
   async logout(req: Request, res: Response, next: NextFunction) {
     try {
-      const refreshToken = req.body?.refreshToken ?? req.cookies?.refreshToken;
+      const refreshToken = req.cookies?.refreshToken;
       await authService.logout(refreshToken);
-      clearRefreshCookie(res);
+      clearAuthCookies(res);
       return sendSuccess(res, null, { message: "Logged out successfully." });
     } catch (error) {
       return next(error);
@@ -76,7 +96,7 @@ export const authController = {
     try {
       if (!req.user) throw new UnauthorizedError("Authentication required.");
       await authService.logoutAll(req.user.userId);
-      clearRefreshCookie(res);
+      clearAuthCookies(res);
       return sendSuccess(res, null, {
         message: "Logged out from all devices.",
       });
@@ -99,7 +119,7 @@ export const authController = {
     try {
       if (!req.user) throw new UnauthorizedError("Authentication required.");
       await authService.changePassword(req.user.userId, req.body);
-      clearRefreshCookie(res);
+      clearAuthCookies(res);
       return sendSuccess(res, null, {
         message: "Password changed successfully.",
       });

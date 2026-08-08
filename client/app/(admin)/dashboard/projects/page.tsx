@@ -1,5 +1,6 @@
 import { projectsApi } from "@/lib/api/projects";
 import { ProjectsClient } from "@/components/admin/projects/projects.client";
+import { serverListProjects } from "@/lib/api/server";
 
 interface PageProps {
   searchParams: Promise<{
@@ -14,7 +15,7 @@ export default async function AdminProjectsPage({ searchParams }: PageProps) {
   const page = Number(params.page ?? 1);
   const search = params.search ?? "";
 
-  const projectsResponse = await projectsApi.listAdmin({
+  const projectsResponse = await serverListProjects({
     page,
     limit: 10,
     search,

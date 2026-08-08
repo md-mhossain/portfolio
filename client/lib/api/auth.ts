@@ -1,5 +1,5 @@
-import { api } from './client';
-import type { AuthResponse, User } from '@/types';
+import { api } from "./client";
+import type { AuthResponse, User } from "@/types";
 
 export interface LoginPayload {
   email: string;
@@ -13,15 +13,18 @@ export interface RegisterPayload {
 }
 
 export const authApi = {
-  login: (payload: LoginPayload) => api.post<AuthResponse>('/auth/login', payload),
-  register: (payload: RegisterPayload) => api.post<AuthResponse>('/auth/register', payload),
-  me: () => api.get<User>('/auth/me'),
-  refresh: () => api.post<AuthResponse>('/auth/refresh', {}),
-  logout: () => api.post<null>('/auth/logout', {}),
-  logoutAll: () => api.post<null>('/auth/logout-all', {}),
+  login: (payload: LoginPayload) =>
+    api.post<AuthResponse>("/auth/login", payload),
+  register: (payload: RegisterPayload) =>
+    api.post<AuthResponse>("/auth/register", payload),
+  me: () => api.get<User>("/auth/me"),
+  refresh: () => api.post<AuthResponse>("/auth/refresh", {}),
+  logout: () => api.post<null>("/auth/logout", {}),
+  logoutAll: () => api.post<null>("/auth/logout-all", {}),
   changePassword: (payload: { currentPassword: string; newPassword: string }) =>
-    api.post<null>('/auth/change-password', payload),
-  forgotPassword: (payload: { email: string }) => api.post<null>('/auth/forgot-password', payload),
+    api.post<null>("/auth/change-password", payload),
+  forgotPassword: (payload: { email: string }) =>
+    api.post<null>("/auth/forgot-password", payload),
   resetPassword: (payload: { token: string; password: string }) =>
-    api.post<null>('/auth/reset-password', payload),
+    api.post<null>("/auth/reset-password", payload),
 };

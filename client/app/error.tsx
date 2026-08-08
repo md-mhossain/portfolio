@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function GlobalError({
   error,
@@ -15,14 +15,12 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html lang="en">
-      <body className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background text-center">
-        <h1 className="font-display text-4xl font-bold">Something went wrong</h1>
-        <p className="max-w-md text-muted-foreground">
-          An unexpected error occurred. Please try again.
-        </p>
-        <Button onClick={() => reset()}>Try again</Button>
-      </body>
-    </html>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background text-center">
+      <h1 className="font-display text-4xl font-bold">Something went wrong</h1>
+      <p className="max-w-md text-muted-foreground">
+        An unexpected error occurred. Please try again.
+      </p>
+      <Button onClick={() => reset()}>Try again</Button>
+    </div>
   );
 }

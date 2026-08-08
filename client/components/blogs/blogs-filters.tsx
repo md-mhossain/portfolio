@@ -22,14 +22,21 @@ export function BlogsFilters({ initialSearch = "" }: BlogsFiltersProps) {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (search.trim()) params.set("search", search.trim());
-      else params.delete("search");
-      params.delete("page");
-      startTransition(() => {
-        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-      });
+      const currentSearchParam = searchParams.get("search") ?? "";
+
+      // শুধুমাত্র তখনই রাউট রিপ্লে করবে যদি সার্চ ভ্যালু ইউআরএল-এর বর্তমান ভ্যালু থেকে আলাদা হয়
+      if (search.trim() !== currentSearchParam.trim()) {
+        const params = new URLSearchParams(searchParams.toString());
+        if (search.trim()) params.set("search", search.trim());
+        else params.delete("search");
+        params.delete("page");
+
+        startTransition(() => {
+          router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+        });
+      }
     }, 300);
+
     return () => clearTimeout(timeout);
   }, [search, pathname, router, searchParams]);
 

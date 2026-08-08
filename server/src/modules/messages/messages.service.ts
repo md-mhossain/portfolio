@@ -49,7 +49,7 @@ export const messagesService = {
       SORTABLE_FIELDS,
     );
 
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.message.findMany({
         where,
         skip,

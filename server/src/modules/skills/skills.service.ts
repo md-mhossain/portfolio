@@ -46,7 +46,7 @@ export const skillsService = {
       SORTABLE_FIELDS,
     );
 
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.skill.findMany({
         where,
         skip,

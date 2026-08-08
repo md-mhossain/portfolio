@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { ThemeToggle } from './theme-toggle';
-import { useAuthStore } from '@/lib/auth/store';
-import { ArrowRight, LayoutDashboard, LogIn, Menu, X } from 'lucide-react';
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "./theme-toggle";
+import { useAuthStore } from "@/lib/auth/store";
+import { ArrowRight, LayoutDashboard, LogIn, Menu, X } from "lucide-react";
 
 const navItems = [
-  { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
-  { label: 'Projects', path: '/projects' },
-  { label: 'Blog', path: '/blogs' },
-  { label: 'Contact', path: '/contact' },
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Projects", path: "/projects" },
+  { label: "Blog", path: "/blogs" },
+  { label: "Contact", path: "/contact" },
 ];
 
 export function Navbar() {
@@ -42,15 +42,15 @@ export function Navbar() {
                 key={item.path}
                 href={item.path}
                 className={cn(
-                  'group relative text-sm font-medium transition-colors hover:text-foreground',
-                  active ? 'text-foreground' : 'text-muted-foreground',
+                  "group relative text-sm font-medium transition-colors hover:text-foreground",
+                  active ? "text-foreground" : "text-muted-foreground",
                 )}
               >
                 {item.label}
                 <span
                   className={cn(
-                    'absolute -bottom-1.5 left-0 h-1 rounded-full bg-gradient-to-r from-teal-300 to-lime-500 transition-all duration-300',
-                    active ? 'w-full' : 'w-0 group-hover:w-full',
+                    "absolute -bottom-1.5 left-0 h-1 rounded-full bg-gradient-to-r from-teal-300 to-lime-500 transition-all duration-300",
+                    active ? "w-full" : "w-0 group-hover:w-full",
                   )}
                 />
               </Link>
@@ -62,7 +62,7 @@ export function Navbar() {
           <ThemeToggle />
           {user ? (
             <Button asChild variant="outline" size="sm">
-              <Link href={user.role === 'ADMIN' ? '/admin' : '/admin'}>
+              <Link href={user.role === "ADMIN" ? "/dashboard" : "/"}>
                 <LayoutDashboard className="h-4 w-4" />
                 Dashboard
               </Link>
@@ -86,7 +86,12 @@ export function Navbar() {
         {/* Mobile controls */}
         <div className="flex items-center gap-2 md:hidden">
           <ThemeToggle />
-          <Button variant="ghost" size="icon" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
             {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
@@ -104,8 +109,8 @@ export function Navbar() {
                   href={item.path}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    'text-lg font-medium',
-                    active ? 'text-foreground' : 'text-muted-foreground',
+                    "text-lg font-medium",
+                    active ? "text-foreground" : "text-muted-foreground",
                   )}
                 >
                   {item.label}
@@ -115,7 +120,7 @@ export function Navbar() {
             <div className="mt-2 flex gap-3">
               {user ? (
                 <Button asChild className="flex-1">
-                  <Link href="/admin" onClick={() => setOpen(false)}>
+                  <Link href="/dashboard" onClick={() => setOpen(false)}>
                     Dashboard
                   </Link>
                 </Button>

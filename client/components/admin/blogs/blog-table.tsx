@@ -1,55 +1,116 @@
+"use client";
+
 import Image from "next/image";
 
+import { FileText } from "lucide-react";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 
-import type { Blog } from "@/types";
 import { BlogActions } from "./blog-actions";
+import type { Blog } from "@/types";
 
 type Props = {
   blogs: Blog[];
   onEdit: (blog: Blog) => void;
 };
 
+const statusVariant = {
+  PUBLISHED: "success",
+  DRAFT: "warning",
+  ARCHIVED: "secondary",
+} as const;
+
 export function BlogTable({ blogs, onEdit }: Props) {
   return (
-    <table className="w-full">
-      <tbody>
-        {blogs.map((blog) => (
-          <tr key={blog.id}>
-            <td>
-              <div className="flex gap-3">
-                <Image
-                  src={blog.coverImage}
-                  alt={blog.title}
-                  width={80}
-                  height={50}
-                  className="rounded-lg object-cover"
-                />
+    <div className="rounded-2xl border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Blog</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Date</TableHead>
+            <TableHead>Action</TableHead>
+            <TableHead />
+          </TableRow>
+        </TableHeader>
 
-                <div>
-                  <p>{blog.title}</p>
-                  <p>{blog.readTime} min read</p>
+        <TableBody>
+          {blogs.map((blog) => (
+            <TableRow key={blog.id}>
+              <TableCell>
+                <div className="flex gap-3 items-center">
+                  <Image
+                    src={blog.coverImage}
+                    alt={blog.title}
+                    width={56}
+                    height={40}
+                    style={{ width: "auto", height: "auto" }}
+                    className=" h-[40px] w-[56px]rounded-lg object-cover"
+                  />
+
+                  <div>
+                    <p className="font-medium">{blog.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {blog.readTime} min read
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </td>
+              </TableCell>
 
-            <td>
-              <Badge>{blog.category}</Badge>
-            </td>
+              <TableCell>
+                <Badge variant="outline">{blog.category}</Badge>
+              </TableCell>
 
-            <td>
-              <Badge>{blog.status}</Badge>
-            </td>
+              <TableCell>
+                <Badge
+                  variant={
+                    statusVariant[blog.status as keyof typeof statusVariant] ??
+                    "default"
+                  }
+                >
+                  {blog.status}
+                </Badge>
+              </TableCell>
 
-            <td>{formatDate(blog.publishedAt ?? blog.createdAt)}</td>
+              <TableCell>
+                {formatDate(blog.publishedAt ?? blog.createdAt)}
+              </TableCell>
 
-            <td>
-              <BlogActions blog={blog} onEdit={onEdit} />
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <FileText className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end">
+                    <BlogActions blog={blog} onEdit={onEdit} />
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

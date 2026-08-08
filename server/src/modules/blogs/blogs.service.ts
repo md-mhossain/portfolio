@@ -72,7 +72,7 @@ export const blogsService = {
       SORTABLE_FIELDS,
     );
 
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.blog.findMany({
         where,
         skip,

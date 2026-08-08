@@ -1,8 +1,8 @@
-import { blogsApi } from "@/lib/api/blogs";
 import { AdminBlogsClient } from "@/components/admin/blogs/admin-blogs-client";
+import { serverListBlogs } from "@/lib/api/server";
 
 export default async function AdminBlogsPage() {
-  const response = await blogsApi.listAdmin({
+  const response = await serverListBlogs({
     page: 1,
     limit: 10,
     search: "",

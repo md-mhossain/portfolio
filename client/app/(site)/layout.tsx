@@ -1,7 +1,12 @@
-import { Navbar } from '@/components/site/navbar';
-import { Footer } from '@/components/site/footer';
+import {Navbar} from "@/components/site/navbar";
+import {Footer} from "@/components/site/footer";
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+
+export default function SiteLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
