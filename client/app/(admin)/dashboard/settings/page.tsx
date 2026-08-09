@@ -1,8 +1,8 @@
 import { SettingsClient } from "@/components/admin/settings/settings.client";
-import { settingsApi } from "@/lib/api";
+import {serverGetSettings} from "@/lib/api/server";
 
 export default async function AdminSettingsPage() {
-  const settings = await settingsApi.get();
+  const settings = await serverGetSettings();
 
   return <SettingsClient initialSettings={settings} />;
 }
