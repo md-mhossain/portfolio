@@ -10,7 +10,7 @@ import {
 import {
   BlogForm,
   type BlogFormValues,
-} from "@/components/admin/blogs/blog-form";
+} from "@/components/admin/blogs/blog.form";
 
 type Props = {
   open: boolean;

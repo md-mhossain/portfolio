@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 
 export async function Hero() {
   const settings = await serverGetSettings('hero');
-  const hero = settings?.hero as { title?: string; subtitle?: string } | undefined;
+  console.log(settings);
+  const hero = settings?.data?.hero as { title?: string; subtitle?: string } | undefined;
 
   const title = hero?.title ?? 'Trusted Partner for Your Website Develop.';
   const subtitle =

@@ -115,7 +115,7 @@ export async function serverListProjects(
 }
 
 export async function serverGetProject(slug: string) {
-  return serverFetchRaw<Project>(`/projects/slug/${slug}`, {
+  return serverFetchRaw<Project>(`/projects/${slug}`, {
     tags: [CACHE_TAGS.projects],
   });
 }
@@ -138,7 +138,7 @@ export async function serverListBlogs(
 }
 
 export async function serverGetBlog(slug: string) {
-  return serverFetchRaw<Blog>(`/blogs/slug/${slug}`, {
+  return serverFetchRaw<Blog>(`/blogs/${slug}`, {
     tags: [CACHE_TAGS.blogs],
   });
 }

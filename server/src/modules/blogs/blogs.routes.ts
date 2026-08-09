@@ -7,6 +7,7 @@ import {
   createBlogSchema,
   updateBlogSchema,
 } from "./blogs.schemas";
+
 import { validate } from "../../middleware/validate";
 import { authenticate, requireAdmin } from "../../middleware/auth";
 
@@ -40,7 +41,7 @@ blogsRouter.get(
   validate({ query: blogQuerySchema }),
   blogsController.listPublic,
 );
-blogsRouter.get("/slug/:slug", blogsController.getBySlug);
+blogsRouter.get("/:slug", blogsController.getBySlug);
 
 // Protected routes
 blogsRouter.use(authenticate, requireAdmin);

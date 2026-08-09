@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import type { Project } from '@/types';
+import Link from "next/link";
 
 interface Props {
     project: Project;
@@ -42,27 +43,27 @@ export function ProjectActions({
 
             {project.liveUrl && (
                 <DropdownMenuItem asChild>
-                    <a
+                    <Link
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         <ExternalLink className="mr-2 h-4 w-4" />
                         Live Demo
-                    </a>
+                    </Link>
                 </DropdownMenuItem>
             )}
 
             {project.repoUrl && (
                 <DropdownMenuItem asChild>
-                    <a
+                    <Link
                         href={project.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         <FaGithub className="mr-2 h-4 w-4" />
                         Repository
-                    </a>
+                    </Link>
                 </DropdownMenuItem>
             )}
 

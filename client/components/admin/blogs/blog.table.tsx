@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 
-import { BlogActions } from "./blog-actions";
+import { BlogActions } from "./blog.actions";
 import type { Blog } from "@/types";
 
 type Props = {
@@ -103,7 +103,9 @@ export function BlogTable({ blogs, onEdit }: Props) {
                   </DropdownMenuTrigger>
 
                   <DropdownMenuContent align="end">
-                    <BlogActions blog={blog} onEdit={onEdit} />
+                    <BlogActions blog={blog} onEdit={onEdit} onDelete={function (blog: Blog): void {
+                      throw new Error("Function not implemented.");
+                    }} />
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>

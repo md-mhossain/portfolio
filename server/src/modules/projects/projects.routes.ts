@@ -19,7 +19,7 @@ projectsRouter.get(
   projectsController.listPublic,
 );
 projectsRouter.get(
-  "/slug/:slug",
+  "/:slug",
   validate({ params: projectSlugSchema }),
   projectsController.getBySlug,
 );

@@ -1,4 +1,4 @@
-import { AdminBlogsClient } from "@/components/admin/blogs/admin-blogs-client";
+import { BlogsClient } from "@/components/admin/blogs/blogs.client";
 import { serverListBlogs } from "@/lib/api/server";
 
 export default async function AdminBlogsPage() {
@@ -9,7 +9,7 @@ export default async function AdminBlogsPage() {
   });
 
   return (
-    <AdminBlogsClient
+    <BlogsClient
       initialBlogs={response.data}
       initialMeta={response.meta}
     />

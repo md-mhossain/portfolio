@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { BlogForm } from "@/components/admin/blogs/blog-form";
+import { BlogForm } from "@/components/admin/blogs/blog.form";
 
 type Props = {
   blog: Blog | null;

@@ -49,7 +49,7 @@ export function BlogActions({ blog, onEdit, onDelete }: Props) {
       </DropdownMenuItem>
 
       <DropdownMenuItem
-        className="text-destructive focus:text-destructive"
+        className="text-destructive"
         onClick={() => {
           setOpen(false);
           onDelete(blog);

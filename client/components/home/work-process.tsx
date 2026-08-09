@@ -16,7 +16,7 @@ const fallbackSteps: WorkStep[] = [
 
 export async function WorkProcess() {
   const settings = await serverGetSettings('workProcess');
-  const raw = settings?.workProcess;
+  const raw = settings?.data?.workProcess;
   const steps = Array.isArray(raw)
     ? raw.map((step) => ({
         title: String((step as Record<string, unknown>).title ?? ''),

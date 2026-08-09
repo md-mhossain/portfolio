@@ -61,7 +61,14 @@ async function request<T>(
   } = options;
 
   // Automatically attach Bearer token from Zustand store if available
-  const accessToken = useAuthStore.getState().accessToken;
+  let accessToken: string | null = null;
+  if (typeof window !== "undefined") {
+    try {
+      accessToken = useAuthStore.getState().accessToken;
+    } catch {
+      accessToken = null;
+    }
+  }
 
   const isFormData =
     typeof FormData !== "undefined" && body instanceof FormData;
@@ -94,8 +101,14 @@ async function request<T>(
   }
 
   // Handle Token Expiration and Auto-Refresh (401 Unauthorized)
-
-  const hasToken = useAuthStore.getState().accessToken;
+ let hasToken: string | null = null
+  if(typeof window !== "undefined") {
+    try {
+      hasToken = useAuthStore.getState().accessToken;
+    }catch {
+      hasToken = null;
+    }
+  }
   if (res.status === 401 && !path.includes("/auth/") && hasToken) {
     if (isRefreshing) {
       try {
