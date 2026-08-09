@@ -33,13 +33,13 @@ function setRefreshCookie(res: Response, refreshToken: string) {
 
 
      
-functionction clearAuthCookies(res: Response) {
+function clearAuthCookies(res: Response) {
   res.clearCookie("accessToken", {
     path: "/",
   });
 
   res.clearCookie("refreshToken", {
-    path: "/api/v1/auth",
+    path: "/",
   });
 }
 
