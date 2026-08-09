@@ -8,11 +8,13 @@ import { BadRequestError, UnauthorizedError } from "../../shared/errors.js";
 const ACCESS_COOKIE_MAX_AGE = 15 * 60 * 1000;
 const REFRESH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
+      
 function setAccessCookie(res: Response, accessToken: string) {
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
+    // প্রোডাকশনে ক্রস-ডোমেইনের জন্য secure true এবং sameSite 'none' দিতে হবে
     secure: env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: ACCESS_COOKIE_MAX_AGE,
     path: "/",
   });
@@ -21,14 +23,17 @@ function setAccessCookie(res: Response, accessToken: string) {
 function setRefreshCookie(res: Response, refreshToken: string) {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
+    // প্রোডাকশনে ক্রস-ডোমেইনের জন্য secure true এবং sameSite 'none' দিতে হবে
     secure: env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: REFRESH_COOKIE_MAX_AGE,
-    path: "/api/v1/auth",
+    path: "/", // পাথ "/" করে দেওয়া নিরাপদ, যাতে সব অথ রিকোয়েস্টে কুকি পাওয়া যায়
   });
 }
 
-function clearAuthCookies(res: Response) {
+
+     
+functionction clearAuthCookies(res: Response) {
   res.clearCookie("accessToken", {
     path: "/",
   });
