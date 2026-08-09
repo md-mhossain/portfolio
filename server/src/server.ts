@@ -16,18 +16,19 @@ async function bootstrap() {
 
   const server = app.listen(env.PORT, () => {
     logger.info(
-      `API server listening on http://localhost:${env.PORT}${env.API_PREFIX} (${env.NODE_ENV})`,
+        `API server listening on http://localhost:${env.PORT}${env.API_PREFIX} (${env.NODE_ENV})`
     );
   });
 
   const shutdown = async (signal: string) => {
     logger.info(`${signal} received - shutting down gracefully.`);
+
     server.close(async () => {
       await prisma.$disconnect();
       process.exit(0);
     });
-    // Force-exit if graceful shutdown takes too long.
-    setTimeout(() => process.exit(1), 10_000).unref();
+
+    setTimeout(() => process.exit(1), 10000).unref();
   };
 
   process.on("SIGTERM", () => void shutdown("SIGTERM"));

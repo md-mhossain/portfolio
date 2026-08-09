@@ -4,6 +4,7 @@ import helmet from "helmet";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import pinoHttp from "pino-http";
+
 import { env } from "./config/env.js";
 import { logger } from "./shared/logger.js";
 import { mountApiRoutes } from "./routes/index.js";
@@ -24,23 +25,25 @@ export function createApp(): Express {
   app.use(helmet());
 
   app.use(
-    cors({
-      origin: (origin, callback) => {
-        // Allow requests with no origin (curl, server-to-server, same-origin).
-        if (!origin) return callback(null, true);
+      cors({
+        origin: (origin, callback) => {
+          if (!origin) return callback(null, true);
 
-        const allowedOrigins = env.CLIENT_URL.split(",").map((o: string) =>
-          o.trim(),
-        );
-        if (allowedOrigins.includes(origin)) return callback(null, true);
+          const allowedOrigins = env.CLIENT_URL.split(",").map((o: string) =>
+              o.trim()
+          );
 
-        return callback(new Error("Not allowed by CORS"));
-      },
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization", "X-Request-Id"],
-      maxAge: 86400,
-    }),
+          if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+          }
+
+          return callback(new Error("Not allowed by CORS"));
+        },
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization", "X-Request-Id"],
+        maxAge: 86400,
+      })
   );
 
   app.use(compression());
@@ -65,3 +68,7 @@ export function createApp(): Express {
 
   return app;
 }
+
+const app = createApp();
+
+export default app;
