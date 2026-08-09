@@ -50,6 +50,11 @@ test-results/
 .DS_Store
 Thumbs.db
 
+#agent
+.agent
+.claude
+.windsurf
+
 # Prisma
 apps/api/prisma/*.db
 

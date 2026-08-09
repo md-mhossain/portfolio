@@ -1,6 +1,6 @@
 import type {Request, Response, NextFunction} from 'express';
-import { messagesService } from './messages.service.js';
-import { sendSuccess } from '../../shared/response.js';
+import { messagesService } from "./messages.service.js";
+import { sendSuccess } from "../../shared/response.js";
 
 export const messagesController = {
   async create(req: Request, res: Response, next: NextFunction) {

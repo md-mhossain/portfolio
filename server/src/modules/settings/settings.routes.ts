@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { settingsController } from './settings.controller.js';
-import { upsertSettingSchema } from './settings.schemas.js';
-import { validate } from '../../middleware/validate.js';
-import { authenticate, requireAdmin } from '../../middleware/auth.js';
+import { settingsController } from "./settings.controller.js";
+import { upsertSettingSchema } from "./settings.schemas.js";
+import { validate } from "../../middleware/validate.js";
+import { authenticate, requireAdmin } from "../../middleware/auth.js";
 
 const settingsRouter = Router();
 

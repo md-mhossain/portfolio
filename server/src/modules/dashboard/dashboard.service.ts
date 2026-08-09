@@ -1,5 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
-
+import {prisma} from "../../lib/prisma.js"
 export const dashboardService = {
   async summary() {
     const today = new Date();

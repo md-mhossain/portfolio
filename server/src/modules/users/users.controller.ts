@@ -1,6 +1,6 @@
 import type {Request, Response, NextFunction} from 'express';
-import { usersService } from './users.service.js';
-import { sendSuccess } from '../../shared/response.js';
+import { usersService } from "./users.service.js";
+import { sendSuccess } from "../../shared/response.js";
 
 export const usersController = {
   async list(req: Request, res: Response, next: NextFunction) {

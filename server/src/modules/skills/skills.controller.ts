@@ -1,6 +1,6 @@
 import type {Request, Response, NextFunction} from 'express';
-import { skillsService } from './skills.service.js';
-import { sendSuccess } from '../../shared/response.js';
+import { skillsService } from "./skills.service.js";
+import { sendSuccess } from "../../shared/response.js";
 
 export const skillsController = {
   async list(req: Request, res: Response, next: NextFunction) {

@@ -1,4 +1,5 @@
-import type { Prisma } from "../../generated/prisma/client.js";
+
+import {Prisma} from "../../../src/generated/prisma/client.js"
 import { ConflictError, NotFoundError } from "../../shared/errors.js";
 import {
   buildPaginationMeta,

@@ -1,8 +1,8 @@
 import type {NextFunction, Request, Response} from 'express';
 import { randomUUID } from 'crypto';
-import { logger } from '../shared/logger.js';
-import { toAppError } from '../shared/errors.js';
-import { sendError } from '../shared/response.js';
+import { logger } from "../shared/logger.js";
+import { toAppError } from "../shared/errors.js";
+import { sendError } from "../shared/response.js";
 
 export function requestId(req: Request, res: Response, next: NextFunction) {
   req.requestId = randomUUID();

@@ -1,7 +1,7 @@
 import type {Request, Response, NextFunction} from 'express';
-import { settingsService } from './settings.service.js';
-import { sendSuccess } from '../../shared/response.js';
-import { BadRequestError } from '../../shared/errors.js';
+import { settingsService } from "./settings.service.js";
+import { sendSuccess } from "../../shared/response.js";
+import { BadRequestError } from "../../shared/errors.js";
 
 export const settingsController = {
   async get(req: Request, res: Response, next: NextFunction) {

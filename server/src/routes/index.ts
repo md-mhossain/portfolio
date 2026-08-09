@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { env } from '../config/env.js';
-import authRouter from '../modules/auth/auth.routes.js';
-import usersRouter from '../modules/users/users.routes.js';
-import projectsRouter from '../modules/projects/projects.routes.js';
-import blogsRouter from '../modules/blogs/blogs.routes.js';
-import skillsRouter from '../modules/skills/skills.routes.js';
-import messagesRouter from '../modules/messages/messages.routes.js';
-import settingsRouter from '../modules/settings/settings.routes.js';
-import analyticsRouter from '../modules/analytics/analytics.routes.js';
-import dashboardRouter from '../modules/dashboard/dashboard.routes.js';
+import { env } from "../config/env.js";
+import authRouter from "../modules/auth/auth.routes.js";
+import usersRouter from "../modules/users/users.routes.js";
+import projectsRouter from "../modules/projects/projects.routes.js";
+import blogsRouter from "../modules/blogs/blogs.routes.js";
+import skillsRouter from "../modules/skills/skills.routes.js";
+import messagesRouter from "../modules/messages/messages.routes.js";
+import settingsRouter from "../modules/settings/settings.routes.js";
+import analyticsRouter from "../modules/analytics/analytics.routes.js";
+import dashboardRouter from "../modules/dashboard/dashboard.routes.js";
 
 const apiRouter = Router();
 

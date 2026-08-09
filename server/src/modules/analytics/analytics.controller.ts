@@ -1,6 +1,6 @@
 import type {Request, Response, NextFunction} from 'express';
-import { analyticsService } from './analytics.service.js';
-import { sendSuccess } from '../../shared/response.js';
+import { analyticsService } from "./analytics.service.js";
+import { sendSuccess } from "../../shared/response.js";
 
 export const analyticsController = {
   async track(req: Request, res: Response, next: NextFunction) {
