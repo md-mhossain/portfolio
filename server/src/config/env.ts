@@ -13,10 +13,7 @@ const envSchema = z.object({
 
   DATABASE_URL: z
     .string(process.env.DATABASE_URL)
-    .min(1, "DATABASE_URL is required")
-    .default(
-      "postgresql://postgres:postgres@localhost:5432/devmonir?schema=public",
-    ),
+    .min(1, "DATABASE_URL is required"),
 
   JWT_ACCESS_SECRET: z
     .string()
