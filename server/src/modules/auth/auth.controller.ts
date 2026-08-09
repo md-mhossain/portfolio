@@ -15,8 +15,7 @@ function setAccessCookie(res: Response, accessToken: string) {
     secure: true,
     sameSite: "none",
     maxAge: ACCESS_COOKIE_MAX_AGE,
-    path: "/",
-    domain: "monirhossain.vercel.app"
+    path: "/"
   });
 }
 
@@ -26,8 +25,7 @@ function setRefreshCookie(res: Response, refreshToken: string) {
     secure: true,
     sameSite: "none",
     maxAge: REFRESH_COOKIE_MAX_AGE,
-    path: "/",
-    domain: "monirhossain.vercel.app"
+    path: "/"
   });
 }
 
