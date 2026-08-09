@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type {Request, Response, NextFunction} from 'express';
 import { skillsService } from './skills.service.js';
 import { sendSuccess } from '../../shared/response.js';
 
@@ -16,7 +16,7 @@ export const skillsController = {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const skill = await skillsService.getById(req.params.id);
+      const skill = await skillsService.getById(req.params.id as string);
       return sendSuccess(res, skill);
     } catch (error) {
       return next(error);
@@ -34,7 +34,7 @@ export const skillsController = {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const skill = await skillsService.update(req.params.id, req.body);
+      const skill = await skillsService.update(req.params.id as string, req.body);
       return sendSuccess(res, skill, { message: 'Skill updated.' });
     } catch (error) {
       return next(error);
@@ -43,7 +43,7 @@ export const skillsController = {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      await skillsService.delete(req.params.id);
+      await skillsService.delete(req.params.id as string);
       return sendSuccess(res, null, { message: 'Skill deleted.' });
     } catch (error) {
       return next(error);

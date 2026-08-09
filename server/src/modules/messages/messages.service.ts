@@ -70,7 +70,7 @@ export const messagesService = {
 
   async create(
     input: CreateMessageInput,
-    meta: { ip?: string; userAgent?: string },
+    meta: { ip?: string | undefined; userAgent?: string | undefined },
   ) {
     const body = sanitizeText(input.body);
     const name = sanitizeText(input.name, 120);

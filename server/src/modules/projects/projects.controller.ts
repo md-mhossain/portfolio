@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type {Request, Response, NextFunction} from 'express';
 import { projectsService } from './projects.service.js';
 import { sendSuccess } from '../../shared/response.js';
 
@@ -28,7 +28,7 @@ export const projectsController = {
 
   async getBySlug(req: Request, res: Response, next: NextFunction) {
     try {
-      const project = await projectsService.getBySlug(req.params.slug, true);
+      const project = await projectsService.getBySlug(req.params.slug as string, true);
       return sendSuccess(res, project);
     } catch (error) {
       return next(error);
@@ -37,7 +37,7 @@ export const projectsController = {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const project = await projectsService.getById(req.params.id);
+      const project = await projectsService.getById(req.params.id as string);
       return sendSuccess(res, project);
     } catch (error) {
       return next(error);
@@ -55,7 +55,7 @@ export const projectsController = {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const project = await projectsService.update(req.params.id, req.body);
+      const project = await projectsService.update(req.params.id as string, req.body);
       return sendSuccess(res, project, { message: 'Project updated.' });
     } catch (error) {
       return next(error);
@@ -64,7 +64,7 @@ export const projectsController = {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      await projectsService.delete(req.params.id);
+      await projectsService.delete(req.params.id as string);
       return sendSuccess(res, null, { message: 'Project deleted.' });
     } catch (error) {
       return next(error);

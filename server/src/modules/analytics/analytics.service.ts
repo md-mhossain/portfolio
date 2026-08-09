@@ -1,21 +1,36 @@
-import { Prisma } from "../../generated/prisma/client.js";
+import { Prisma } from "../../../generated/prisma/client";
+
 import { prisma } from "../../lib/prisma.js";
 import type { TrackEventInput } from "./analytics.types.js";
 
 export const analyticsService = {
   async track(
     input: TrackEventInput,
-    meta: { ip?: string; userAgent?: string },
+    meta: { ip?: string | undefined; userAgent?: string | undefined },
   ) {
     return prisma.analyticsEvent.create({
       data: {
         eventType: input.eventType,
-        path: input.path?.slice(0, 500),
-        referrer: input.referrer?.slice(0, 1000),
-        ipAddress: meta.ip?.slice(0, 45),
-        userAgent: meta.userAgent?.slice(0, 255),
-        metadata:
-          (input.metadata as Prisma.InputJsonValue | undefined) ?? undefined,
+
+        ...(input.path && {
+          path: input.path.slice(0, 500),
+        }),
+
+        ...(input.referrer && {
+          referrer: input.referrer.slice(0, 1000),
+        }),
+
+        ...(meta.ip && {
+          ipAddress: meta.ip.slice(0, 45),
+        }),
+
+        ...(meta.userAgent && {
+          userAgent: meta.userAgent.slice(0, 255),
+        }),
+
+        ...(input.metadata && {
+          metadata: input.metadata as Prisma.InputJsonValue,
+        }),
       },
     });
   },

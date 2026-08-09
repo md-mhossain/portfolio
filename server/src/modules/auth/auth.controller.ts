@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type {Request, Response, NextFunction} from "express";
 import { authService } from "./auth.service.js";
 import { sendSuccess } from "../../shared/response.js";
 import { sendPasswordResetEmail } from "../../shared/mailer.js";

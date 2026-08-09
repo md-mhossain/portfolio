@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type {Request, Response, NextFunction} from "express";
 import { blogsService } from "./blogs.service.js";
 import { sendSuccess } from "../../shared/response.js";
 
@@ -28,7 +28,7 @@ export const blogsController = {
 
   async getBySlug(req: Request, res: Response, next: NextFunction) {
     try {
-      const blog = await blogsService.getBySlug(req.params.slug, true, true);
+      const blog = await blogsService.getBySlug(req.params.slug as string, true, true);
       return sendSuccess(res, blog);
     } catch (error) {
       return next(error);
@@ -37,7 +37,7 @@ export const blogsController = {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const blog = await blogsService.getById(req.params.id);
+      const blog = await blogsService.getById(req.params.id as string);
       return sendSuccess(res, blog);
     } catch (error) {
       return next(error);
@@ -58,7 +58,7 @@ export const blogsController = {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const blog = await blogsService.update(req.params.id, req.body);
+      const blog = await blogsService.update(req.params.id as string, req.body);
       return sendSuccess(res, blog, { message: "Blog updated." });
     } catch (error) {
       return next(error);
@@ -67,7 +67,7 @@ export const blogsController = {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      await blogsService.delete(req.params.id);
+      await blogsService.delete(req.params.id as string);
       return sendSuccess(res, null, { message: "Blog deleted." });
     } catch (error) {
       return next(error);

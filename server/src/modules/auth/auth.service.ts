@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import { Prisma, User } from "../../generated/prisma/client.js";
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma";
+import {Prisma, type User} from "../../../generated/prisma/client";
 
 import {
   ConflictError,

@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type {NextFunction, Request, Response} from "express";
 import { verifyAccessToken } from "../shared/utils/tokens.js";
 import { UnauthorizedError } from "../shared/errors.js";
 

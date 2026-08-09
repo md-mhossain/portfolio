@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type {Request, Response, NextFunction} from 'express';
 import { messagesService } from './messages.service.js';
 import { sendSuccess } from '../../shared/response.js';
 
@@ -31,7 +31,7 @@ export const messagesController = {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const message = await messagesService.getById(req.params.id);
+      const message = await messagesService.getById(req.params.id as string);
       return sendSuccess(res, message);
     } catch (error) {
       return next(error);
@@ -40,7 +40,7 @@ export const messagesController = {
 
   async updateStatus(req: Request, res: Response, next: NextFunction) {
     try {
-      const message = await messagesService.updateStatus(req.params.id, req.body.status);
+      const message = await messagesService.updateStatus(req.params.id as string, req.body.status);
       return sendSuccess(res, message, { message: 'Message status updated.' });
     } catch (error) {
       return next(error);
@@ -49,7 +49,7 @@ export const messagesController = {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      await messagesService.delete(req.params.id);
+      await messagesService.delete(req.params.id as string);
       return sendSuccess(res, null, { message: 'Message deleted.' });
     } catch (error) {
       return next(error);
