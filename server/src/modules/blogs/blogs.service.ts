@@ -22,8 +22,10 @@ function buildWhere(input: {
   if (input.publicOnly) {
     where.status = "PUBLISHED";
     where.publishedAt = { lte: new Date() };
-  } else if (input.status) {
-    where.status = input.status as Prisma.BlogWhereInput["status"];
+  }
+
+  if (!input.publicOnly && input.status) {
+    where.status = input.status as any;
   }
 
   if (input.category) {
