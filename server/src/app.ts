@@ -4,10 +4,10 @@ import helmet from "helmet";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import pinoHttp from "pino-http";
-import { env } from "./config/env.js";
-import { logger } from "./shared/logger.js";
-import { mountApiRoutes } from "./routes/index.js";
-import { generalLimiter } from "./middleware/rate-limiter.js";
+import { env } from "./config/env";
+import {logger} from "./shared/logger";
+import { mountApiRoutes } from "./routes";
+import { generalLimiter } from "./middleware/rate-limiter";
 import {
   errorHandler,
   notFoundHandler,
@@ -20,7 +20,7 @@ export function createApp(): Express {
   app.disable("x-powered-by");
 
   app.use(requestId);
-  app.use(pinoHttp({ logger }));
+  app.use((pinoHttp as any)({logger}));
   app.use(helmet());
 
   app.use(
