@@ -12,22 +12,20 @@ const REFRESH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 function setAccessCookie(res: Response, accessToken: string) {
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    // প্রোডাকশনে ক্রস-ডোমেইনের জন্য secure true এবং sameSite 'none' দিতে হবে
-    secure: env.NODE_ENV === "production",
-    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+    secure: true,
+    sameSite: "none",
     maxAge: ACCESS_COOKIE_MAX_AGE,
-    path: "/",
+    path: "/"
   });
 }
 
 function setRefreshCookie(res: Response, refreshToken: string) {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    // প্রোডাকশনে ক্রস-ডোমেইনের জন্য secure true এবং sameSite 'none' দিতে হবে
-    secure: env.NODE_ENV === "production",
-    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+    secure: true,
+    sameSite: "none",
     maxAge: REFRESH_COOKIE_MAX_AGE,
-    path: "/", // পাথ "/" করে দেওয়া নিরাপদ, যাতে সব অথ রিকোয়েস্টে কুকি পাওয়া যায়
+    path: "/"
   });
 }
 
