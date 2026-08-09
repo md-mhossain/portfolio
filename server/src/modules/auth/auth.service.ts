@@ -1,14 +1,14 @@
 import bcrypt from "bcryptjs";
-import { Prisma, User } from "../../generated/prisma/client";
-import { prisma } from "../../lib/prisma";
+import { Prisma, User } from "../../generated/prisma/client.js";
+import { prisma } from "../../lib/prisma.js";
 
 import {
   ConflictError,
   ForbiddenError,
   UnauthorizedError,
-} from "../../shared/errors";
-import { logger } from "../../shared/logger";
-import { env } from "../../config/env";
+} from "../../shared/errors.js";
+import { logger } from "../../shared/logger.js";
+import { env } from "../../config/env.js";
 import {
   createTokenId,
   generatePasswordResetToken,
@@ -16,7 +16,7 @@ import {
   signAccessToken,
   signRefreshToken,
   verifyRefreshToken,
-} from "../../shared/utils/tokens";
+} from "../../shared/utils/tokens.js";
 import type {
   ChangePasswordInput,
   ForgotPasswordInput,

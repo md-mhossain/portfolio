@@ -1,14 +1,14 @@
 import { Prisma } from "../generated/prisma/client.js";
 
 export type ErrorCode =
-  | "VALIDATION_ERROR"
-  | "UNAUTHORIZED"
-  | "FORBIDDEN"
-  | "NOT_FOUND"
-  | "CONFLICT"
-  | "TOO_MANY_REQUESTS"
-  | "INTERNAL_ERROR"
-  | "BAD_REQUEST";
+    | "VALIDATION_ERROR"
+    | "UNAUTHORIZED"
+    | "FORBIDDEN"
+    | "NOT_FOUND"
+    | "CONFLICT"
+    | "TOO_MANY_REQUESTS"
+    | "INTERNAL_ERROR"
+    | "BAD_REQUEST";
 
 export class AppError extends Error {
   public readonly statusCode: number;
@@ -17,11 +17,11 @@ export class AppError extends Error {
   public readonly isOperational: boolean;
 
   constructor(
-    statusCode: number,
-    code: ErrorCode,
-    message: string,
-    details?: unknown,
-    isOperational = true,
+      statusCode: number,
+      code: ErrorCode,
+      message: string,
+      details?: unknown,
+      isOperational = true,
   ) {
     super(message);
     this.name = "AppError";
@@ -29,6 +29,7 @@ export class AppError extends Error {
     this.code = code;
     this.details = details;
     this.isOperational = isOperational;
+
     Error.captureStackTrace(this, this.constructor);
   }
 }
@@ -83,34 +84,51 @@ export function isAppError(error: unknown): error is AppError {
  * Maps unknown thrown values (including Prisma errors) into an AppError.
  */
 export function toAppError(error: unknown): AppError {
-  if (isAppError(error)) return error;
+  if (isAppError(error)) {
+    return error;
+  }
 
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    if (error.code === "P2002") {
-      const target = (error.meta?.target as string[] | undefined)?.join(", ");
+  if (
+      error &&
+      typeof error === "object" &&
+      "code" in error
+  ) {
+    const prismaError = error as Prisma.PrismaClientKnownRequestError;
+
+    if (prismaError.code === "P2002") {
+      const target = (
+          prismaError.meta?.target as string[] | undefined
+      )?.join(", ");
+
       return new ConflictError(
-        `A record with this value already exists${target ? ` (${target})` : ""}.`,
+          `A record with this value already exists${
+              target ? ` (${target})` : ""
+          }.`,
       );
     }
-    if (error.code === "P2025") {
+
+    if (prismaError.code === "P2025") {
       return new NotFoundError("Record not found.");
     }
-    if (error.code === "P2003") {
+
+    if (prismaError.code === "P2003") {
       return new BadRequestError(
-        "Operation violates a foreign key constraint.",
+          "Operation violates a foreign key constraint.",
       );
     }
   }
 
   if (error instanceof Prisma.PrismaClientValidationError) {
-    return new BadRequestError("Invalid data provided to the database.");
+    return new BadRequestError(
+        "Invalid data provided to the database.",
+    );
   }
 
   return new AppError(
-    500,
-    "INTERNAL_ERROR",
-    "Internal server error",
-    undefined,
-    false,
+      500,
+      "INTERNAL_ERROR",
+      "Internal server error",
+      undefined,
+      false,
   );
 }

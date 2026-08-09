@@ -1,16 +1,16 @@
-import type { Prisma } from "../../generated/prisma/client";
-import { ConflictError, NotFoundError } from "../../shared/errors";
+import type { Prisma } from "../../generated/prisma/client.js";
+import { ConflictError, NotFoundError } from "../../shared/errors.js";
 import {
   buildPaginationMeta,
   parseOrderBy,
   parsePagination,
-} from "../../shared/utils/pagination";
-import { randomSlugSuffix, slugify } from "../../shared/utils/slugify";
-import { prisma } from "../../lib/prisma";
+} from "../../shared/utils/pagination.js";
+import { randomSlugSuffix, slugify } from "../../shared/utils/slugify.js";
+import { prisma } from "../../lib/prisma.js";
 import type {
   CreateProjectInput,
   UpdateProjectInput,
-} from "./projects.schemas";
+} from "./projects.schemas.js";
 
 const SORTABLE_FIELDS = ["createdAt", "updatedAt", "order", "title"];
 

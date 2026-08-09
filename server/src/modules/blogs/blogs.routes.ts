@@ -6,10 +6,10 @@ import {
   // blogSlugSchema,
   createBlogSchema,
   updateBlogSchema,
-} from "./blogs.schemas";
+} from "./blogs.schemas.js";
 
-import { validate } from "../../middleware/validate";
-import { authenticate, requireAdmin } from "../../middleware/auth";
+import { validate } from "../../middleware/validate.js";
+import { authenticate, requireAdmin } from "../../middleware/auth.js";
 
 const blogsRouter = Router();
 

@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { projectsController } from "./projects.controller";
+import { projectsController } from "./projects.controller.js";
 import {
   createProjectSchema,
   projectIdSchema,
   projectQuerySchema,
   projectSlugSchema,
   updateProjectSchema,
-} from "./projects.schemas";
-import { validate } from "../../middleware/validate";
-import { authenticate, requireAdmin } from "../../middleware/auth";
+} from "./projects.schemas.js";
+import { validate } from "../../middleware/validate.js";
+import { authenticate, requireAdmin } from "../../middleware/auth.js";
 
 const projectsRouter = Router();
 

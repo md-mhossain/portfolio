@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { skillsController } from "./skills.controller";
+import { skillsController } from "./skills.controller.js";
 import {
   createSkillSchema,
   skillIdSchema,
   skillQuerySchema,
   updateSkillSchema,
-} from "./skills.schemas";
-import { validate } from "../../middleware/validate";
-import { authenticate, requireAdmin } from "../../middleware/auth";
+} from "./skills.schemas.js";
+import { validate } from "../../middleware/validate.js";
+import { authenticate, requireAdmin } from "../../middleware/auth.js";
 
 const skillsRouter = Router();
 
