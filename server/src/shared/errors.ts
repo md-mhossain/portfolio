@@ -1,6 +1,6 @@
 import { Prisma } from "../generated/prisma/client.js";
 
-export type ErrorCode =
+export type ErrorType =
     | "VALIDATION_ERROR"
     | "UNAUTHORIZED"
     | "FORBIDDEN"
@@ -12,13 +12,13 @@ export type ErrorCode =
 
 export class AppError extends Error {
   public readonly statusCode: number;
-  public readonly code: ErrorCode;
+  public readonly type: ErrorType;
   public readonly details?: unknown;
   public readonly isOperational: boolean;
 
   constructor(
       statusCode: number,
-      code: ErrorCode,
+      type: ErrorType,
       message: string,
       details?: unknown,
       isOperational = true,
@@ -26,7 +26,7 @@ export class AppError extends Error {
     super(message);
     this.name = "AppError";
     this.statusCode = statusCode;
-    this.code = code;
+    this.type = type;
     this.details = details;
     this.isOperational = isOperational;
 

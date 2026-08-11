@@ -9,10 +9,11 @@
     "rootDir": "./src",
     "outDir": "./dist",
 
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
     },
+//    "ignoreDeprecations": "6.0",
 
     "strict": true,
     "esModuleInterop": true,
@@ -33,10 +34,5 @@
 
   "include": ["src/**/*.ts"],
 
-  "exclude": [
-    "node_modules",
-    "dist",
-    "prisma",
-    "prisma.config.ts"
-  ]
+  "exclude": ["node_modules", "dist", "prisma", "prisma.config.ts"]
 }

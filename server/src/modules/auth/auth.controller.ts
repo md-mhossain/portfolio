@@ -1,45 +1,10 @@
-import type {Request, Response, NextFunction} from "express";
+import type { Request, Response, NextFunction } from "express";
 import { authService } from "./auth.service.js";
-import { sendSuccess } from "../../shared/response.js";
-import { sendPasswordResetEmail } from "../../shared/mailer.js";
-import { env } from "../../config/env.js";
-import { BadRequestError, UnauthorizedError } from "../../shared/errors.js";
+import { sendPasswordResetEmail } from "@/shared/mailer";
+import { BadRequestError, UnauthorizedError } from "@/shared/errors";
+import {sendSuccess} from "@/shared/response";
+import {clearAuthCookies, setAccessCookie, setRefreshCookie} from "@/shared/utils/tokens";
 
-const ACCESS_COOKIE_MAX_AGE = 15 * 60 * 1000;
-const REFRESH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
-
-      
-function setAccessCookie(res: Response, accessToken: string) {
-  res.cookie("accessToken", accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: ACCESS_COOKIE_MAX_AGE,
-    path: "/"
-  });
-}
-
-function setRefreshCookie(res: Response, refreshToken: string) {
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: REFRESH_COOKIE_MAX_AGE,
-    path: "/"
-  });
-}
-
-
-     
-function clearAuthCookies(res: Response) {
-  res.clearCookie("accessToken", {
-    path: "/",
-  });
-
-  res.clearCookie("refreshToken", {
-    path: "/",
-  });
-}
 
 export const authController = {
   async register(req: Request, res: Response, next: NextFunction) {

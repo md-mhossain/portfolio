@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken";
 import { randomBytes, createHash } from "crypto";
 import { env } from "../../config/env.js";
+import type { Response } from "express";
+
+const JWT_ACCESS_EXPIRES_IN = 15 * 60 * 1000; // 15 minutes in milliseconds
+const JWT_REFRESH_EXPIRES_IN = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 export interface AccessTokenPayload {
   id: string;
@@ -92,4 +96,34 @@ export function generatePasswordResetToken(): { raw: string; hash: string } {
 
 export function generateOtp(): string {
   return randomBytes(4).toString("hex");
+}
+
+export function setAccessCookie(res: Response, accessToken: string) {
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: JWT_ACCESS_EXPIRES_IN,
+    path: "/",
+  });
+}
+
+export function setRefreshCookie(res: Response, refreshToken: string) {
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: JWT_REFRESH_EXPIRES_IN,
+    path: "/",
+  });
+}
+
+export function clearAuthCookies(res: Response) {
+  res.clearCookie("accessToken", {
+    path: "/",
+  });
+
+  res.clearCookie("refreshToken", {
+    path: "/",
+  });
 }

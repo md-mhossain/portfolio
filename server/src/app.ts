@@ -7,13 +7,13 @@ import pinoHttp from "pino-http";
 
 import { env } from "./config/env.js";
 import { logger } from "./shared/logger.js";
-import { mountApiRoutes } from "./routes/index.js";
 import { generalLimiter } from "./middleware/rate-limiter.js";
 import {
   errorHandler,
   notFoundHandler,
   requestId,
 } from "./middleware/error-handler.js";
+import {mountApiRoutes} from "@/routes";
 
 export function createApp(): Express {
   const app = express();

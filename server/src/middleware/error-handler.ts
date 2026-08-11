@@ -26,7 +26,7 @@ export function errorHandler(error: unknown, req: Request, res: Response, _next:
   } else {
     logger.warn({
       requestId: req.requestId,
-      code: appError.code,
+      type: appError.type,
       message: appError.message,
       path: req.originalUrl,
       statusCode: appError.statusCode,
@@ -37,7 +37,7 @@ export function errorHandler(error: unknown, req: Request, res: Response, _next:
     res,
     appError.statusCode,
     appError.message,
-    appError.code,
+    appError.type,
     appError.details,
   );
 }
