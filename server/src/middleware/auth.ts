@@ -1,6 +1,6 @@
 import type {NextFunction, Request, Response} from "express";
-import {verifyAccessToken} from "@/shared/utils/tokens";
-import {UnauthorizedError} from "@/shared/errors";
+import {verifyAccessToken} from "../shared/utils/tokens.js";
+import {UnauthorizedError} from "../shared/errors.js";
 
 
 export function authenticate(req: Request, _res: Response, next: NextFunction) {

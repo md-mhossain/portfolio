@@ -13,7 +13,7 @@ import {
   notFoundHandler,
   requestId,
 } from "./middleware/error-handler.js";
-import {mountApiRoutes} from "@/routes";
+import {mountApiRoutes} from "./routes/index.js";
 
 export function createApp(): Express {
   const app = express();

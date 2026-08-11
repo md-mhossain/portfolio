@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 import { authService } from "./auth.service.js";
-import { sendPasswordResetEmail } from "@/shared/mailer";
-import { BadRequestError, UnauthorizedError } from "@/shared/errors";
-import {sendSuccess} from "@/shared/response";
-import {clearAuthCookies, setAccessCookie, setRefreshCookie} from "@/shared/utils/tokens";
+import { sendPasswordResetEmail } from "../../shared/mailer.js";
+import { BadRequestError, UnauthorizedError } from "../../shared/errors.js";
+import {sendSuccess} from "../../shared/response.js";
+import {clearAuthCookies, setAccessCookie, setRefreshCookie} from "../../shared/utils/tokens.js";
 
 
 export const authController = {
