@@ -67,7 +67,7 @@ export function AdminSidebar({user}: { user: User }) {
           {navItems.map((item) => {
             const active =
               item.path === "/dashboard"
-                ? pathname === "/admin"
+                ? pathname === "/dashboard"
                 : pathname.startsWith(item.path);
             return (
               <Link
@@ -131,7 +131,7 @@ export function AdminSidebar({user}: { user: User }) {
       {/* Mobile top bar */}
       <div className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/90 px-4 py-3 backdrop-blur lg:hidden">
         <Link
-          href="/admin"
+          href="/"
           className="font-display text-xl font-extrabold uppercase tracking-tight"
         >
           dev<span className="text-accent">.monir</span>
