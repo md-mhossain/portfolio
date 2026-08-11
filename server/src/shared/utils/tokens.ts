@@ -100,7 +100,7 @@ export function generateOtp(): string {
 
 export function setAccessCookie(res: Response, accessToken: string) {
   res.cookie("accessToken", accessToken, {
-    httpOnly: true,
+    httpOnly: false,
     secure: false,
     sameSite: "none",
     maxAge: JWT_ACCESS_EXPIRES_IN,
@@ -110,7 +110,7 @@ export function setAccessCookie(res: Response, accessToken: string) {
 
 export function setRefreshCookie(res: Response, refreshToken: string) {
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
+    httpOnly: false,
     secure: false,
     sameSite: "none",
     maxAge: JWT_REFRESH_EXPIRES_IN,
