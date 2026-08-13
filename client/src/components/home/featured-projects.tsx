@@ -19,7 +19,7 @@ export function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             eyebrow="Recent Projects"
             title="Featured Projects"
             description="A selection of products and experiences I've designed and built."
-            className="mb-0"
+            className="mb-2"
           />
           <Button asChild variant="outline" className="mb-12">
             <Link href="/projects">

@@ -102,7 +102,7 @@ export function setAccessCookie(res: Response, accessToken: string) {
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "lax",
     maxAge: JWT_ACCESS_EXPIRES_IN,
     path: "/",
   });
@@ -112,7 +112,7 @@ export function setRefreshCookie(res: Response, refreshToken: string) {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "lax",
     maxAge: JWT_REFRESH_EXPIRES_IN,
     path: "/",
   });

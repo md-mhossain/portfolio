@@ -21,7 +21,7 @@ interface Props {
     search: string;
 }
 
-export function ProjectsClient({
+export function AdminProjectsClient({
                                    initialData,
                                }: Props) {
     const queryClient = useQueryClient();

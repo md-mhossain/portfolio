@@ -3,10 +3,10 @@ import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
 import cookieParser from "cookie-parser";
-import pinoHttp from "pino-http";
+// import pinoHttp from "pino-http";
 
 import { env } from "./config/env.js";
-import { logger } from "./shared/logger.js";
+// import { logger } from "./shared/logger.js";
 import { generalLimiter } from "./middleware/rate-limiter.js";
 import {
   errorHandler,
@@ -21,7 +21,7 @@ export function createApp(): Express {
   app.disable("x-powered-by");
 
   app.use(requestId);
-  app.use((pinoHttp as any)({ logger }));
+  // app.use((pinoHttp as any)({ logger }));
   app.use(helmet());
 
   app.use(
@@ -68,7 +68,3 @@ export function createApp(): Express {
 
   return app;
 }
-
-const app = createApp();
-
-export default app;

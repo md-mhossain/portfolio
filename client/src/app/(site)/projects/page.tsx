@@ -29,8 +29,10 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
     page,
     limit: 6,
     search: search || undefined,
-    featured: featured ? 'true' : undefined,
+    // featured: featured ? 'true' : undefined,
   });
+
+  console.log(projects);
 
   const paginationQuery = {
     search: search || undefined,

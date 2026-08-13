@@ -42,7 +42,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                     className="font-display text-2xl font-extrabold uppercase tracking-tight"
                     onClick={() => setOpen(false)}
                 >
-                    dev.monir
+                    dev<span className="text-lime-500">.monir</span>
                 </Link>
 
                 <div className="hidden items-center gap-8 md:flex">

@@ -3,8 +3,8 @@ import { projectsController } from "./projects.controller.js";
 import {
   createProjectSchema,
   projectIdSchema,
-  projectQuerySchema,
-  projectSlugSchema,
+  projectQuerySchema, projectSlugSchema,
+  // projectSlugSchema,
   updateProjectSchema,
 } from "./projects.schemas.js";
 import { validate } from "../../middleware/validate.js";
@@ -12,46 +12,76 @@ import { authenticate, requireAdmin } from "../../middleware/auth.js";
 
 const projectsRouter = Router();
 
-// Public routes
+/**
+ * Public Routes
+ */
 projectsRouter.get(
-  "/",
-  validate({ query: projectQuerySchema }),
-  projectsController.listPublic,
-);
-projectsRouter.get(
-  "/:slug",
-  validate({ params: projectSlugSchema }),
-  projectsController.getBySlug,
+    "/",
+    validate({ query: projectQuerySchema }),
+    projectsController.listPublic,
 );
 
-// Protected admin routes
-projectsRouter.use(authenticate, requireAdmin);
+/**
+ * Protected Admin Routes
+ */
+projectsRouter.get(
+    "/admin",
+    authenticate,
+    requireAdmin,
+    validate({ query: projectQuerySchema }),
+    projectsController.list,
+);
 
 projectsRouter.get(
-  "/admin",
-  validate({ query: projectQuerySchema }),
-  projectsController.list,
+    "/admin/stats",
+    authenticate,
+    requireAdmin,
+    projectsController.stats,
 );
-projectsRouter.get("/admin/stats", projectsController.stats);
+
 projectsRouter.get(
-  "/admin/:id",
-  validate({ params: projectIdSchema }),
-  projectsController.getById,
+    "/admin/:id",
+    authenticate,
+    requireAdmin,
+    validate({ params: projectIdSchema }),
+    projectsController.getById,
 );
+
 projectsRouter.post(
-  "/",
-  validate({ body: createProjectSchema }),
-  projectsController.create,
+    "/",
+    authenticate,
+    requireAdmin,
+    validate({ body: createProjectSchema }),
+    projectsController.create,
 );
+
 projectsRouter.patch(
-  "/:id",
-  validate({ params: projectIdSchema, body: updateProjectSchema }),
-  projectsController.update,
+    "/:id",
+    authenticate,
+    requireAdmin,
+    validate({
+      params: projectIdSchema,
+      body: updateProjectSchema,
+    }),
+    projectsController.update,
 );
+
 projectsRouter.delete(
-  "/:id",
-  validate({ params: projectIdSchema }),
-  projectsController.delete,
+    "/:id",
+    authenticate,
+    requireAdmin,
+    validate({ params: projectIdSchema }),
+    projectsController.delete,
+);
+
+/**
+ * Public Slug Route
+ * MUST BE LAST
+ */
+projectsRouter.get(
+    "/:slug",
+    validate({ params: projectSlugSchema }),
+    projectsController.getBySlug,
 );
 
 export default projectsRouter;

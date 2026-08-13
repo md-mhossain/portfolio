@@ -20,6 +20,7 @@ function buildWhere(input: {
   featured?: string;
   publicOnly?: boolean;
 }): Prisma.ProjectWhereInput {
+
   const where: Prisma.ProjectWhereInput = {};
 
   if (input.publicOnly) {
@@ -78,6 +79,7 @@ export const projectsService = {
       }),
       prisma.project.count({ where }),
     ]);
+
 
     return { items, meta: buildPaginationMeta(total, page, limit) };
   },

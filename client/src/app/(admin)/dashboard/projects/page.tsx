@@ -1,5 +1,5 @@
-import { ProjectsClient } from "@/components/admin/projects/projects.client";
-import {serverListProjects} from "@/app/actions";
+import { AdminProjectsClient } from "@/components/admin/projects/admin.projects.client";
+import {projectsApi} from "@/lib/api/projects";
 
 interface PageProps {
   searchParams: Promise<{
@@ -14,14 +14,16 @@ export default async function AdminProjectsPage({ searchParams }: PageProps) {
   const page = Number(params.page ?? 1);
   const search = params.search ?? "";
 
-  const projectsResponse = await serverListProjects({
+  const projectsResponse = await projectsApi.listAdmin({
     page,
     limit: 10,
     search,
   });
 
+  console.log(projectsResponse);
+
   return (
-    <ProjectsClient
+    <AdminProjectsClient
       initialData={projectsResponse}
       page={page}
       search={search}

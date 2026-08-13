@@ -26,6 +26,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="eager"
           />
           {project?.featured && (
               <Badge className="absolute left-4 top-4 z-10" variant="accent">
