@@ -105,6 +105,7 @@ export function setAccessCookie(res: Response, accessToken: string) {
     sameSite: "lax",
     maxAge: JWT_ACCESS_EXPIRES_IN,
     path: "/",
+    domain: ".mmrhossain.com"
   });
 }
 
@@ -115,6 +116,7 @@ export function setRefreshCookie(res: Response, refreshToken: string) {
     sameSite: "lax",
     maxAge: JWT_REFRESH_EXPIRES_IN,
     path: "/",
+    domain: ".mmrhossain.com"
   });
 }
 
