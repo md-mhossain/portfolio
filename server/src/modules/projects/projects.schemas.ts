@@ -26,7 +26,7 @@ export const projectQuerySchema = z.object({
 });
 
 export const projectIdSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string().uuid(),
 });
 
 export const projectSlugSchema = z.object({

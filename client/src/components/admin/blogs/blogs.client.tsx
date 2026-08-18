@@ -1,76 +1,199 @@
 "use client";
 
 import { useState } from "react";
-import type { Blog } from "@/types";
-
-import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
-import { Pagination } from "@/components/shared/pagination";
-import { BlogSearch } from "./blog.search";
-import { BlogTable } from "./blog.table";
-import { CreateBlogDialog } from "./create-blog-dialog";
-import { EditBlogDialog } from "./edit-blog-dialog";
+
+import { blogsApi } from "@/lib/api/blogs";
+import { getErrorMessage } from "@/lib/api/client";
+
+import type { Blog } from "@/types";
 import type { BlogFormValues } from "@/components/admin/blogs/blog.form";
 
-type Props = {
-    initialBlogs: Blog[];
-    initialMeta: any;
-};
+import { BlogTable } from "@/components/admin/blogs/blog.table";
 
-export function BlogsClient({ initialBlogs, initialMeta }: Props) {
-    const [blogs, setBlogs] = useState(initialBlogs);
-    const [meta, setMeta] = useState(initialMeta);
+import { TableRowsSkeleton } from "@/components/shared/skeletons";
+import { ErrorState } from "@/components/shared/error-state";
+import { EmptyState } from "@/components/shared/empty-state";
 
-    const [search, setSearch] = useState("");
-    const [editing, setEditing] = useState<Blog | null>(null);
+import { Button } from "@/components/ui/button";
+import {CreateBlogDialog} from "@/components/admin/blogs/create.blog.dialog";
+import {EditBlogDialog} from "@/components/admin/blogs/edit.blog.dialog";
+
+interface Props {
+    initialData?: any;
+}
+
+export function BlogsClient({ initialData }: Props) {
+    const queryClient = useQueryClient();
+
     const [creating, setCreating] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
+    const [editing, setEditing] = useState<Blog | null>(null);
 
-    const handleCreateBlog = async (values: BlogFormValues) => {
-        setSubmitting(true);
-        try {
-            // এখানে আপনার ব্লগ ক্রিয়েট করার API কল বা Server Action যুক্ত করবেন
-            console.log("Creating blog:", values);
+    const {
+        data,
+        isLoading,
+        isError,
+        refetch,
+    } = useQuery({
+        queryKey: ["blogs", "admin"],
+        queryFn: () => blogsApi.listAdmin(),
+        initialData,
+    });
 
-            // সফল হলে ডায়ালগ বন্ধ করে দিতে পারেন
-            setCreating(false);
-        } catch (error) {
-            console.error("Failed to create blog", error);
-        } finally {
-            setSubmitting(false);
-        }
+    const blogs = data?.data ?? [];
+    const meta = data?.meta;
+
+    console.log("blogs", blogs);
+
+    const invalidate = async () => {
+        await queryClient.invalidateQueries({
+            queryKey: ["blogs"],
+        });
     };
+
+    // CREATE
+    const createMutation = useMutation({
+        mutationFn: (payload: BlogFormValues) =>
+            blogsApi.create(payload),
+
+        onSuccess: async () => {
+            toast.success("Blog created");
+
+            await invalidate();
+
+            setCreating(false);
+        },
+
+        onError: (error) => {
+            toast.error(getErrorMessage(error));
+        },
+    });
+
+    // UPDATE
+    const updateMutation = useMutation({
+        mutationFn: ({
+                         id,
+                         payload,
+                     }: {
+            id: string;
+            payload: BlogFormValues;
+        }) => blogsApi.update(id, payload),
+
+        onSuccess: async () => {
+            toast.success("Blog updated");
+
+            await invalidate();
+
+            setEditing(null);
+        },
+
+        onError: (error) => {
+            toast.error(getErrorMessage(error));
+        },
+    });
+
+    // DELETE
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) =>
+            blogsApi.delete(id),
+
+        onSuccess: async () => {
+            toast.success("Blog deleted");
+
+            await invalidate();
+        },
+
+        onError: (error) => {
+            toast.error(getErrorMessage(error));
+        },
+    });
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-between gap-4">
-                <BlogSearch value={search} onChange={setSearch} />
 
-                <Button onClick={() => setCreating(true)}>
-                    <Plus className="h-4 w-4" />
-                    New Post
-                </Button>
+            {/* Header */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex w-full items-center justify-between">
+                    <div>
+                        <h1 className="font-display text-3xl font-bold">
+                            Blogs
+                        </h1>
+
+                        <p className="text-muted-foreground">
+                            Manage portfolio blog posts
+                        </p>
+                    </div>
+
+                    <Button
+                        onClick={() => setCreating(true)}
+                    >
+                        <Plus className="h-4 w-4" />
+                        New Post
+                    </Button>
+                </div>
             </div>
 
-            <BlogTable blogs={blogs} onEdit={setEditing} />
+            {/* Table */}
+            <div className="rounded-2xl border border-border bg-card">
+                {isLoading ? (
+                    <TableRowsSkeleton rows={8} />
+                ) : isError ? (
+                    <div className="p-6">
+                        <ErrorState
+                            onRetry={() => refetch()}
+                        />
+                    </div>
+                ) : blogs.length === 0 ? (
+                    <div className="p-6">
+                        <EmptyState
+                            title="No blogs found"
+                            description="Create your first blog post to get started."
+                        />
+                    </div>
+                ) : (
+                    <BlogTable
+                        blogs={blogs}
+                        onEdit={(blog) => setEditing(blog)}
+                        onDelete={(id) =>
+                            deleteMutation.mutate(id)
+                        }
+                        loading={deleteMutation.isPending}
+                    />
+                )}
 
-            {meta && (
-                <Pagination
-                    meta={meta}
-                    onPageChange={(page) => {
-                        console.log(page);
-                    }}
-                />
-            )}
+            </div>
 
+            {/* Create */}
             <CreateBlogDialog
                 open={creating}
-                onClose={() => setCreating(false)}
-                submitting={submitting}
-                onSubmit={handleCreateBlog}
+                onOpenChange={setCreating}
+                onSubmit={(values) =>
+                    createMutation.mutate(values)
+                }
+                loading={createMutation.isPending}
             />
 
-            <EditBlogDialog blog={editing} onClose={() => setEditing(null)} />
+            {/* Edit */}
+            {editing && (
+                <EditBlogDialog
+                    blog={editing}
+                    open={!!editing}
+                    onOpenChange={(open) => {
+                        if (!open) {
+                            setEditing(null);
+                        }
+                    }}
+                    onSubmit={(values) =>
+                        updateMutation.mutate({
+                            id: editing.id,
+                            payload: values,
+                        })
+                    }
+                    loading={updateMutation.isPending}
+                />
+            )}
         </div>
     );
 }

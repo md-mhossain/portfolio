@@ -29,7 +29,7 @@ import {MessageDetailsDialog} from "@/components/admin/message/message.dialog";
 export function MessagesClient() {
     const queryClient = useQueryClient();
 
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState<number>(1);
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState("ALL");
     const [selected, setSelected] =

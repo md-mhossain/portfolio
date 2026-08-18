@@ -7,20 +7,6 @@ import {clearAuthCookies, setAccessCookie, setRefreshCookie} from "../../shared/
 
 
 export const authController = {
-  async register(req: Request, res: Response, next: NextFunction) {
-    try {
-      const result = await authService.register(req.body);
-      setAccessCookie(res, result.accessToken);
-      setRefreshCookie(res, result.refreshToken);
-      return sendSuccess(res, result, {
-        statusCode: 201,
-        message: "Account created successfully.",
-      });
-    } catch (error) {
-      return next(error);
-    }
-  },
-
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await authService.login(req.body);

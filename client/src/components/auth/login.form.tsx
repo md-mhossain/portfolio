@@ -64,7 +64,7 @@ export function LoginForm() {
       </CardHeader>
 
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label
               htmlFor="email"
@@ -103,7 +103,7 @@ export function LoginForm() {
 
               <Link
                 href="/forgot-password"
-                className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                className="text-xs text-muted-foreground hover:text-primary transition-colors underline"
               >
                 Forgot password?
               </Link>
@@ -151,15 +151,15 @@ export function LoginForm() {
           </Button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link
-            href="/register"
-            className="font-medium text-primary hover:underline underline-offset-4 transition-colors"
-          >
-            Register
-          </Link>
-        </div>
+        {/*<div className="mt-6 text-center text-sm text-muted-foreground">*/}
+        {/*  Don&apos;t have an account?{" "}*/}
+        {/*  <Link*/}
+        {/*    href="/register"*/}
+        {/*    className="font-medium text-primary hover:underline underline-offset-4 transition-colors"*/}
+        {/*  >*/}
+        {/*    Register*/}
+        {/*  </Link>*/}
+        {/*</div>*/}
       </CardContent>
     </Card>
   );

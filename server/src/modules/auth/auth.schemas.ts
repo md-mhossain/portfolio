@@ -13,15 +13,6 @@ export const emailSchema = z
   .email("Invalid email address.")
   .max(254, "Email must be at most 254 characters.");
 
-export const registerSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Name must be at least 2 characters.")
-    .max(100, "Name must be at most 100 characters."),
-  email: emailSchema,
-  password: passwordSchema,
-});
-
 export const loginSchema = z.object({
   email: emailSchema,
   password: z.string().min(1, "Password is required."),
@@ -45,7 +36,6 @@ export const resetPasswordSchema = z.object({
   password: passwordSchema,
 });
 
-export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;

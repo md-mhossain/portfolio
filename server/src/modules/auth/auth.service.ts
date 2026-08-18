@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma.js";
 import {Prisma, User} from "../../generated/prisma/client.js"
 import {
-  ConflictError,
   ForbiddenError,
   UnauthorizedError,
 } from "../../shared/errors.js";
@@ -20,7 +19,6 @@ import type {
   ChangePasswordInput,
   ForgotPasswordInput,
   LoginInput,
-  RegisterInput,
   ResetPasswordInput,
 } from "./auth.schemas.js";
 
@@ -58,26 +56,10 @@ const safeUserSelect = {
 } satisfies Prisma.UserSelect;
 
 export const authService = {
-  async register(input: RegisterInput) {
-    const existing = await this.findByEmail(input.email);
-    if (existing) {
-      throw new ConflictError("An account with this email already exists.");
-    }
-
-    const passwordHash = await bcrypt.hash(input.password, 12);
-    const user = await this.create({
-      name: input.name.trim(),
-      email: input.email.toLowerCase().trim(),
-      passwordHash,
-      role: "USER",
-    });
-
-    const tokens = await this.issueTokenPair(user.id);
-    return { user: this.toSafeUser(user), ...tokens };
-  },
 
   async login(input: LoginInput) {
     const user = await this.findByEmail(input.email.toLowerCase().trim());
+
     if (!user) {
       throw new UnauthorizedError("Invalid email or password.");
     }

@@ -8,7 +8,6 @@ export const projectsController = {
       const result = await projectsService.list({
         ...(req.query as Record<string, string | number | undefined>),
       });
-      console.log(req.query);
       return sendSuccess(res, result.items, { meta: result.meta });
     } catch (error) {
       return next(error);
@@ -30,7 +29,6 @@ export const projectsController = {
   async getBySlug(req: Request, res: Response, next: NextFunction) {
     try {
       const project = await projectsService.getBySlug(req.params.slug as string, true);
-      console.log(req.params.slug);
       return sendSuccess(res, project);
     } catch (error) {
       return next(error);

@@ -23,7 +23,7 @@ export const skillQuerySchema = z.object({
 });
 
 export const skillIdSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string().uuid(),
 });
 
 export type CreateSkillInput = z.infer<typeof createSkillSchema>;

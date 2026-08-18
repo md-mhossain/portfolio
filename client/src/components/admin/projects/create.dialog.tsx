@@ -16,15 +16,15 @@ import {
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  submitting: boolean;
   onSubmit: (values: ProjectFormValues) => void;
+  loading: boolean;
 }
 
-export function CreateProjectDialog({
+export function CreateDialog({
   open,
   onOpenChange,
-  submitting,
   onSubmit,
+    loading
 }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -40,9 +40,9 @@ export function CreateProjectDialog({
 
         <div className="flex-1 overflow-y-auto px-6 py-6">
           <ProjectForm
-            submitting={submitting}
             submitLabel="Create Project"
             onSubmit={onSubmit}
+            loading={loading}
           />
         </div>
       </DialogContent>

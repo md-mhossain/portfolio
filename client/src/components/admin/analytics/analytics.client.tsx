@@ -3,6 +3,7 @@ import { RecentMessages } from "./recent.messages";
 import { RecentBlogs } from "./recent.blogs";
 import { TrafficChart } from "./traffic-chart";
 import { Welcome } from "./Welcome";
+import {Suspense} from "react";
 
 interface Props {
   summary: any;
@@ -19,10 +20,14 @@ export function AnalyticsClient({ summary }: Props) {
           <TrafficChart />
         </div>
 
-        <RecentMessages messages={summary?.recentMessages} />
+        <Suspense fallback={"loading..."}>
+            <RecentMessages messages={summary?.recentMessages} />
+        </Suspense>
       </div>
 
-      <RecentBlogs blogs={summary?.recentBlogs} />
+      <Suspense fallback={"loading..."}>
+          <RecentBlogs blogs={summary?.recentBlogs} />
+      </Suspense>
     </div>
   );
 }

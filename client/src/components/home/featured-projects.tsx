@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { ProjectCard } from '@/components/projects/project-card';
+import { ProjectCard } from '@/components/projects/project.card';
 import { SectionHeading } from '@/components/site/section-heading';
 import { EmptyState } from '@/components/shared/empty-state';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ interface FeaturedProjectsProps {
 }
 
 export function FeaturedProjects({ projects }: FeaturedProjectsProps) {
+
   return (
     <section className="py-20">
       <div className="container-page">

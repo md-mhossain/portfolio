@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { PageHeader } from '@/components/shared/page-header';
-import { ProjectCard } from '@/components/projects/project-card';
+import { ProjectCard } from '@/components/projects/project.card';
 import { EmptyState } from '@/components/shared/empty-state';
 import { PaginationLinks } from '@/components/shared/pagination-links';
-import { ProjectsFilters } from '@/components/projects/projects-filters';
+import { ProjectsFilters } from '@/components/projects/projects.filters';
 import {serverListProjects} from "@/app/actions";
 
 export const revalidate = 3600;

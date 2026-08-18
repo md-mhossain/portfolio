@@ -23,7 +23,7 @@ export const updateUserSchema = z
   });
 
 export const userIdSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string().uuid(),
 });
 
 export const updateProfileSchema = z

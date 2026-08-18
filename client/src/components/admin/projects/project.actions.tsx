@@ -6,7 +6,7 @@ import {
     Trash2,
 } from 'lucide-react';
 
-import { FaGithub } from 'react-icons/fa';
+import {FaGithub} from 'react-icons/fa';
 
 import {
     DropdownMenuItem,
@@ -14,7 +14,7 @@ import {
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
-import type { Project } from '@/types';
+import type {Project} from '@/types';
 import Link from "next/link";
 
 interface Props {
@@ -34,10 +34,10 @@ export function ProjectActions({
                 Actions
             </DropdownMenuLabel>
 
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator/>
 
             <DropdownMenuItem onClick={onEdit}>
-                <Pencil className="mr-2 h-4 w-4" />
+                <Pencil className="mr-2 h-4 w-4"/>
                 Edit
             </DropdownMenuItem>
 
@@ -48,7 +48,7 @@ export function ProjectActions({
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <ExternalLink className="mr-2 h-4 w-4" />
+                        <ExternalLink className="mr-2 h-4 w-4"/>
                         Live Demo
                     </Link>
                 </DropdownMenuItem>
@@ -61,19 +61,19 @@ export function ProjectActions({
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <FaGithub className="mr-2 h-4 w-4" />
+                        <FaGithub className="mr-2 h-4 w-4"/>
                         Repository
                     </Link>
                 </DropdownMenuItem>
             )}
 
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator/>
 
             <DropdownMenuItem
                 className="text-destructive"
                 onClick={onDelete}
             >
-                <Trash2 className="mr-2 h-4 w-4" />
+                <Trash2 className="mr-2 h-4 w-4"/>
                 Delete
             </DropdownMenuItem>
         </>

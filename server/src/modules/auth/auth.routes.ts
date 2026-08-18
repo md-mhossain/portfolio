@@ -4,7 +4,6 @@ import {
   changePasswordSchema,
   forgotPasswordSchema,
   loginSchema,
-  registerSchema,
   resetPasswordSchema,
 } from "./auth.schemas.js";
 import { validate } from "../../middleware/validate.js";
@@ -12,13 +11,6 @@ import { authenticate } from "../../middleware/auth.js";
 import { authLimiter } from "../../middleware/rate-limiter.js";
 
 const authRouter = Router();
-
-authRouter.post(
-  '/register',
-  authLimiter,
-  validate({ body: registerSchema }),
-  authController.register,
-);
 
 authRouter.post('/login', authLimiter, validate({ body: loginSchema }), authController.login);
 

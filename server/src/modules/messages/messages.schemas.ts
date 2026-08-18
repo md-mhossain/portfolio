@@ -17,7 +17,7 @@ export const messageQuerySchema = z.object({
 });
 
 export const messageIdSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string().uuid(),
 });
 
 export const updateMessageSchema = z.object({

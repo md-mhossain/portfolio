@@ -47,16 +47,16 @@ export function toFormValues(project?: Project): ProjectFormValues {
 
 interface ProjectFormProps {
   initial?: Project;
-  submitting: boolean;
   onSubmit: (values: ProjectFormValues) => void;
   submitLabel: string;
+  loading: boolean;
 }
 
 export function ProjectForm({
   initial,
-  submitting,
   onSubmit,
   submitLabel,
+    loading,
 }: ProjectFormProps) {
   const [values, setValues] = useState<ProjectFormValues>(() =>
     toFormValues(initial),
@@ -96,6 +96,7 @@ export function ProjectForm({
             onChange={(e) => setValues({ ...values, title: e.target.value })}
             placeholder="Project title"
             required
+            disabled={loading}
             className="h-11 rounded-xl bg-background/50 border-border/80 focus-visible:ring-1 focus-visible:ring-primary transition-all"
           />
         </div>
@@ -113,6 +114,7 @@ export function ProjectForm({
             onChange={(e) => setValues({ ...values, image: e.target.value })}
             placeholder="https://..."
             required
+            disabled={loading}
             className="h-11 rounded-xl bg-background/50 border-border/80 focus-visible:ring-1 focus-visible:ring-primary transition-all"
           />
         </div>
@@ -131,6 +133,7 @@ export function ProjectForm({
             onChange={(e) =>
               setValues({ ...values, order: Number(e.target.value) })
             }
+            disabled={loading}
             className="h-11 rounded-xl bg-background/50 border-border/80 focus-visible:ring-1 focus-visible:ring-primary transition-all"
           />
         </div>
@@ -147,6 +150,7 @@ export function ProjectForm({
             value={values.liveUrl}
             onChange={(e) => setValues({ ...values, liveUrl: e.target.value })}
             placeholder="https://..."
+            disabled={loading}
             className="h-11 rounded-xl bg-background/50 border-border/80 focus-visible:ring-1 focus-visible:ring-primary transition-all"
           />
         </div>
@@ -163,6 +167,7 @@ export function ProjectForm({
             value={values.repoUrl}
             onChange={(e) => setValues({ ...values, repoUrl: e.target.value })}
             placeholder="https://..."
+            disabled={loading}
             className="h-11 rounded-xl bg-background/50 border-border/80 focus-visible:ring-1 focus-visible:ring-primary transition-all"
           />
         </div>
@@ -182,6 +187,7 @@ export function ProjectForm({
             }
             placeholder="Short project description"
             required
+            disabled={loading}
             className="rounded-xl bg-background/50 border-border/80 focus-visible:ring-1 focus-visible:ring-primary transition-all resize-none min-h-[80px]"
           />
         </div>
@@ -201,6 +207,7 @@ export function ProjectForm({
               setValues({ ...values, longDescription: e.target.value })
             }
             placeholder="Optional extended description"
+            disabled={loading}
           />
         </div>
 
@@ -219,6 +226,7 @@ export function ProjectForm({
                 }
               }}
               placeholder="Add a tag and press Enter"
+              disabled={loading}
               className="h-11 rounded-xl bg-background/50 border-border/80 focus-visible:ring-1 focus-visible:ring-primary transition-all"
             />
             <Button
@@ -287,6 +295,7 @@ export function ProjectForm({
             onCheckedChange={(checked) =>
               setValues({ ...values, featured: checked })
             }
+            disabled={loading}
           />
         </div>
       </div>
@@ -294,9 +303,9 @@ export function ProjectForm({
       <Button
         type="submit"
         className="w-full h-11 rounded-xl font-medium shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-200 mt-4"
-        disabled={submitting}
+        disabled={loading}
       >
-        {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         {submitLabel}
       </Button>
     </form>

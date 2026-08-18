@@ -5,12 +5,12 @@ import { FaGithub, FaLinkedin, FaFacebookSquare } from 'react-icons/fa';
 const socials = [
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/monirhdigital',
+    href: 'https://www.linkedin.com/in/mmrhossain',
     Icon: FaLinkedin,
   },
   {
     label: 'GitHub',
-    href: 'https://github.com/monir-hossaien',
+    href: 'https://github.com/mmrhossain',
     Icon: FaGithub,
   },
   {

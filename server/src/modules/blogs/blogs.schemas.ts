@@ -24,7 +24,7 @@ export const blogQuerySchema = z.object({
 });
 
 export const blogIdSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string().uuid(),
 });
 
 export const blogSlugSchema = z.object({

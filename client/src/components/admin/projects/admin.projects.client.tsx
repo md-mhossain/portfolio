@@ -1,37 +1,61 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from "react";
+import { toast } from "sonner";
+import {
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 
-import { projectsApi } from '@/lib/api/projects';
-import { getErrorMessage } from '@/lib/api/client';
+import { projectsApi } from "@/lib/api/projects";
+import { getErrorMessage } from "@/lib/api/client";
 
+import type { Project } from "@/types";
+import type { ProjectFormValues } from "@/components/admin/projects/project.form";
 
+import { ProjectsTable } from "@/components/admin/projects/projects.table";
+import { CreateDialog } from "@/components/admin/projects/create.dialog";
+import { EditProjectDialog } from "@/components/admin/projects/edit.dialog";
 
-import type { Project } from '@/types';
-import type { ProjectFormValues } from '@/components/admin/projects/project.form';
-import {ProjectsTable} from "@/components/admin/projects/projects.table";
-import {CreateProjectDialog} from "@/components/admin/projects/create.dialog";
-import {EditProjectDialog} from "@/components/admin/projects/edit.dialog";
+import { TableRowsSkeleton } from "@/components/shared/skeletons";
+import { ErrorState } from "@/components/shared/error-state";
+import { EmptyState } from "@/components/shared/empty-state";
+
+import { Button } from "@/components/ui/button";
 
 interface Props {
-    initialData: any;
-    page: number;
-    search: string;
+    initialData?: any;
+    page?: number;
+    search?: string;
 }
 
 export function AdminProjectsClient({
-                                   initialData,
-                               }: Props) {
+                                        initialData,
+                                    }: Props) {
     const queryClient = useQueryClient();
-
     const [creating, setCreating] = useState(false);
-    const [editing, setEditing] = useState<Project | null>(null);
+    const [editing, setEditing] =
+        useState<Project | null>(null);
 
-    const invalidate = () => {
-        queryClient.invalidateQueries({
-            queryKey: ['projects'],
+    const {
+        data,
+        isLoading,
+        isError,
+        refetch,
+    } = useQuery({
+        queryKey: ["projects", "admin"],
+        queryFn: () => projectsApi.listAdmin(),
+        initialData,
+    });
+
+    const projects = data?.data ?? [];
+    const meta = data?.meta;
+
+    const invalidate = async () => {
+        await queryClient.invalidateQueries({
+            queryKey: ["projects"],
         });
     };
 
@@ -40,7 +64,7 @@ export function AdminProjectsClient({
             projectsApi.create(payload),
 
         onSuccess: () => {
-            toast.success('Project created');
+            toast.success("Project created");
             invalidate();
             setCreating(false);
         },
@@ -60,7 +84,7 @@ export function AdminProjectsClient({
         }) => projectsApi.update(id, payload),
 
         onSuccess: () => {
-            toast.success('Project updated');
+            toast.success("Project updated");
             invalidate();
             setEditing(null);
         },
@@ -71,55 +95,93 @@ export function AdminProjectsClient({
     });
 
     const deleteMutation = useMutation({
-        mutationFn: (id: string) =>
-            projectsApi.delete(id),
-
+        mutationFn: (id: string) => projectsApi.delete(id),
         onSuccess: () => {
-            toast.success('Project deleted');
+            toast.success("Project deleted");
             invalidate();
         },
-
         onError: (error) => {
             toast.error(getErrorMessage(error));
-        },
+        }
     });
 
     return (
-        <>
-            <ProjectsTable
-                data={initialData}
-                onCreate={() => setCreating(true)}
-                onEdit={setEditing}
-                onDelete={(id) =>
-                    deleteMutation.mutate(id)
-                }
-            />
+        <div className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex w-full items-center justify-between">
+                    <div>
+                        <h1 className="font-display text-3xl font-bold">
+                            Projects
+                        </h1>
 
-            <CreateProjectDialog
+                        <p className="text-muted-foreground">
+                            Manage portfolio projects
+                        </p>
+                    </div>
+
+                    <Button
+                        onClick={() => setCreating(true)}
+                    >
+                        <Plus className="h-4 w-4" />
+                        New Project
+                    </Button>
+                </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-card">
+                {isLoading ? (
+                    <TableRowsSkeleton rows={8} />
+                ) : isError ? (
+                    <div className="p-6">
+                        <ErrorState
+                            onRetry={() => refetch()}
+                        />
+                    </div>
+                ) : projects.length === 0 ? (
+                    <div className="p-6">
+                        <EmptyState
+                            title="No projects found"
+                            description="Create your first project to get started."
+                        />
+                    </div>
+                ) : (
+                    <ProjectsTable
+                        data={data}
+                        onCreate={() => setCreating(true)}
+                        onEdit={(project) => setEditing(project)}
+                        onDelete={(id) => deleteMutation.mutate(id)}
+                        loading = {deleteMutation.isPending}
+                    />
+                )}
+            </div>
+
+            <CreateDialog
                 open={creating}
                 onOpenChange={setCreating}
-                submitting={createMutation.isPending}
                 onSubmit={(values) =>
                     createMutation.mutate(values)
                 }
+                loading={createMutation.isPending}
             />
 
-            <EditProjectDialog
-                project={editing}
-                open={Boolean(editing)}
-                submitting={updateMutation.isPending}
-                onOpenChange={(open) => {
-                    if (!open) setEditing(null);
-                }}
-                onSubmit={(values) => {
-                    if (!editing) return;
-
-                    updateMutation.mutate({
-                        id: editing.id,
-                        payload: values,
-                    });
-                }}
-            />
-        </>
+            {editing && (
+                <EditProjectDialog
+                    project={editing}
+                    open={!!editing}
+                    onOpenChange={(open) => {
+                        if (!open) {
+                            setEditing(null);
+                        }
+                    }}
+                    onSubmit={(values) =>
+                        updateMutation.mutate({
+                            id: editing.id,
+                            payload: values,
+                        })
+                    }
+                    loading={updateMutation.isPending}
+                />
+            )}
+        </div>
     );
 }

@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import { formatDateTime } from "@/lib/utils";
+import EmptyLoader from "next/dist/build/webpack/loaders/empty-loader";
+import {EmptyState} from "@/components/shared/empty-state";
 
 interface Props {
   messages: any[];
@@ -22,7 +24,7 @@ interface Props {
 export function RecentMessages({ messages }: Props) {
   
   return (
-    <Card>
+    <Card >
       <CardHeader className="flex-row items-center justify-between">
         <div>
           <CardTitle>Recent messages</CardTitle>
@@ -39,19 +41,19 @@ export function RecentMessages({ messages }: Props) {
       </CardHeader>
 
       <CardContent>
-        {messages?.map((message) => (
-          <div key={message.id} className="mb-3 rounded-xl border p-3">
-            <p className="font-medium">{message.name}</p>
+        {messages?.length > 0 ? messages?.map((message) => (
+            <div key={message.id} className="mb-3 rounded-xl border p-3">
+              <p className="font-medium">{message.name}</p>
 
-            <p className="text-xs text-muted-foreground">{message.body}</p>
+              <p className="text-xs text-muted-foreground">{message.body}</p>
 
-            <p className="text-xs text-muted-foreground">
-              {formatDateTime(message.createdAt)}
-            </p>
+              <p className="text-xs text-muted-foreground">
+                {formatDateTime(message.createdAt)}
+              </p>
 
-            <Badge>{message.status}</Badge>
-          </div>
-        ))}
+              <Badge>{message.status}</Badge>
+            </div>
+        )): <EmptyState className={"py-8"}/>}
       </CardContent>
     </Card>
   );

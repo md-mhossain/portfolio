@@ -33,6 +33,7 @@ interface Props {
   onCreate: () => void;
   onEdit: (project: Project) => void;
   onDelete: (id: string) => void;
+  loading: boolean;
 }
 
 const statusVariant = {
@@ -41,25 +42,12 @@ const statusVariant = {
   ARCHIVED: "secondary",
 } as const;
 
-export function ProjectsTable({ data, onCreate, onEdit, onDelete }: Props) {
-  const projects = data.data ?? [];
-  const meta = data.meta;
+export function ProjectsTable({ data, onEdit, onDelete, loading }: Props) {
+  const projects = data?.data ?? [];
+  const meta = data?.meta;
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-display text-3xl font-bold">Projects</h1>
-
-          <p className="text-muted-foreground">Manage portfolio projects</p>
-        </div>
-
-        <Button onClick={onCreate}>
-          <Plus className="h-4 w-4" />
-          New Project
-        </Button>
-      </div>
-
       <div className="rounded-2xl border">
         <Table>
           <TableHeader>
@@ -130,7 +118,7 @@ export function ProjectsTable({ data, onCreate, onEdit, onDelete }: Props) {
                       <ProjectActions
                         project={project}
                         onEdit={() => onEdit(project)}
-                        onDelete={() => onDelete(project.id)}
+                        onDelete={() => onDelete(project?.id)}
                       />
                     </DropdownMenuContent>
                   </DropdownMenu>
